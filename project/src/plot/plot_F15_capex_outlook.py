@@ -1,17 +1,19 @@
 """
-F15 补充图：五大厂商资本开支前瞻(2025实际→2026/2027/2028指引或估计)。
+F15 补充图：五大厂商资本开支前瞻(2025实际→2026官方指引→2027/2028分析师估计)。
 
 数据：data/processed/F15_capex_outlook.csv (手工整理自各公司2026年最新财报电话会
-官方口径 + 少量第三方分析师估计，见该CSV的source_name/source_url/note列)
+官方口径 + 大摩Morgan Stanley对五大云厂商的统一建模估计，见该CSV的
+source_name/source_url/note列)
 输出：figures/{png,svg}/F15_capex_outlook.{png,svg}
 
 设计说明：五家公司的财年边界、指引颗粒度、2027/2028数据完整度都不一样(MSFT/ORCL
-用财年、AMZN/GOOGL/META用自然年；GOOGL/META的2027只有分析师估计、无官方数字；
-AMZN 2027/2028、MSFT/GOOGL/META/ORCL的2028都完全没有具体数字)，所以不用统一的
-"2025/2026/2027/2028"分组柱(会强行拉齐不可比的口径、并在缺数字的格子里留白很怪)，
-改用五个小倍数子图，每家公司自己的时间轴、自己的柱子，缺数据的格子用文字标注
-"无官方数字"代替，不编造柱子。填充样式区分数据层级：实心=实际(SEC申报)，
-斜纹=公司官方前瞻指引，斜纹+低透明度=第三方分析师估计(非官方，可信度更低)。
+用财年、AMZN/GOOGL/META用自然年；2027年官方大多不给具体数字，只有大摩用同一套
+方法论给出的分析师估计；MSFT/GOOGL的2028、ORCL的2027-2028仍完全没有可用的具体
+数字)，所以不用统一的"2025/2026/2027/2028"分组柱(会强行拉齐不可比的口径、并在
+缺数字的格子里留白很怪)，改用五个小倍数子图，每家公司自己的时间轴、自己的柱子，
+缺数据的格子用文字标注代替，不编造柱子。填充样式区分数据层级：实心=实际(SEC/官方
+申报)，斜纹=公司官方前瞻指引，点纹+低透明度=第三方分析师估计(非官方，可信度更低，
+且本身在2026年内已被上修过)。
 """
 
 import csv
@@ -69,7 +71,7 @@ def main():
         for i, r in enumerate(recs):
             if r["period_type"] == "no_data":
                 ax.text(
-                    i, 0.02, "无官方\n数字", ha="center", va="bottom",
+                    i, 0.02, "无可靠\n数字", ha="center", va="bottom",
                     fontsize=7.3, color=INK_MUTED, transform=ax.get_xaxis_transform(),
                 )
                 continue
@@ -112,21 +114,24 @@ def main():
     )
 
     fig.suptitle(
-        "五大厂商资本开支前瞻：2025实际 → 2026/2027(/2028)指引或估计",
+        "五大厂商资本开支前瞻：2025实际 → 2026官方指引 → 2027/2028分析师估计",
         fontsize=13.5, fontweight="bold", color=INK_PRIMARY, x=0.01, ha="left", y=1.12,
     )
 
     fig.text(
-        0.01, -0.10,
+        0.01, -0.12,
         "数据源：实际值=SEC EDGAR XBRL(本项目F15主图，日历年求和；ORCL用官方财年口径55.7B以便与FY指引可比)；"
         "官方指引=各公司2026年最新一次财报电话会/新闻稿(转引自CNBC/CFO Dive/Intellectia等财经媒体)；"
-        "分析师估计=Citi/UBS/SemiAnalysis等第三方，方法论不透明，仅作补充标注 | "
+        "2027/2028分析师估计=Morgan Stanley(大摩)对五大云厂商用同一套方法论的建模估计(转引自techtimes等财经媒体，"
+        "无法直接访问原始研报核实)，单一机构来源，仅作补充标注，不代表市场普遍共识 | "
         "MSFT/ORCL用财年(MSFT:7-6月, ORCL:6-5月)，其余三家用自然年，各公司x轴刻度不代表同一时间窗口，不可跨公司直接对比x轴 | "
         "MSFT 2026指引从190B下修到175B是租赁会计分类调整(更多数据中心租约计入经营租赁而非资本开支)，非真实缩减 | "
         "ORCL FY2027的92.5B是gross口径，官方另给net(扣除客户预付/自供硬件报销约20-25B)约70B | "
-        "GOOGL 2027两个分析师估计(250B/308B)相差近25%，反映高度不确定性 | "
-        "2028年除ORCL/MSFT定性表态'还会增长'外，五家均无任何具体数字，未强行编造",
-        fontsize=7.6, color=INK_MUTED, wrap=True, transform=fig.transFigure,
+        "大摩自己的估计在2026年内也被多次上修：META 2027从185.6B上修到225B(约+21%)、AMZN 2027上修约15%至308B、"
+        "2028上修约29%至318B，说明分析师估计和官方指引一样不稳定、都在持续走高 | "
+        "GOOGL 2027另有KuCoin引用的250B估计(比大摩284.8B低约14%)，反映分析师之间也有分歧 | "
+        "MSFT/GOOGL的2028、ORCL的2027-2028仍未找到可靠的单一公司具体数字(只有五家合计约$1.4万亿这个总量级)，未强行编造",
+        fontsize=7.4, color=INK_MUTED, wrap=True, transform=fig.transFigure,
     )
 
     save_fig(fig, PNG_DIR / "F15_capex_outlook.png", SVG_DIR / "F15_capex_outlook.svg")
