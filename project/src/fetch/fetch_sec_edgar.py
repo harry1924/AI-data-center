@@ -43,9 +43,13 @@ CIKS = {
     "META": "0001326801",
 }
 
+# 每个指标可能对应多个XBRL标签(公司会换标签)，按优先级列出，逐个尝试，
+# 按财季末日期(end)合并——2026-08-16实测发现AMZN在2017年后不再用
+# PaymentsToAcquirePropertyPlantAndEquipment披露capex，改用了PaymentsToAcquireProductiveAssets，
+# 若只查第一个标签，AMZN 2017年后的资本开支会全部缺失。
 TAGS = {
-    "capex": "PaymentsToAcquirePropertyPlantAndEquipment",
-    "ocf": "NetCashProvidedByUsedInOperatingActivities",
+    "capex": ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsToAcquireProductiveAssets"],
+    "ocf": ["NetCashProvidedByUsedInOperatingActivities"],
 }
 
 
@@ -55,43 +59,58 @@ def _get_json(url: str):
 
 def quarterize(facts: list) -> list:
     """把累计披露的 USD 事实换算为单季度值。
-    facts: [{start, end, val, form, fy, fp}, ...] 按 end 升序
-    返回: [{end, fy, fp, quarter_val}]
-    简化算法：同一财年内，若本期 duration 明显长于90天，减去同财年内上一期累计值。
+
+    2026-08-16 实测发现：不同公司的10-Q披露结构不同——
+    GOOGL/META 只披露"年初至今累计"(YTD)，每期都要靠累计值相减才能还原单季度；
+    MSFT/AMZN 除YTD累计外，**还会在同一份10-Q里同时披露"当季3个月"的直接数值**
+    (duration~90天，但start是当季起点而非财年起点)。之前把所有事实混在一起、只按
+    "fy"标签分组做链式差分，会把direct数值错当成累计值参与运算，产出错误结果
+    (曾实测出MSFT单季资本开支被错误放大到$850亿，真实值约$358亿)。
+    AMZN还额外披露过去12个月滚动值(TTM, duration~365天但来自10-Q而非10-K)，
+    这类不是财年累计，必须排除，否则会污染年度合计。
+
+    正确算法：按 `start` 日期分组(同一start必然属于同一条"YTD累计链"——无论是
+    财年起点的Q1/H1/9mo/Annual链，还是某家公司直接披露的单季度事实，后者的start
+    就是那一季度自己的起点，自成一条长度为1的链，天然不会与别的链混淆)。
+    每条链内部按duration升序排序做差分：第一项(通常dur~90，无论是Q1还是某个
+    direct单季度)直接当作单季度值；后续每项 = 本项累计值 - 链内上一项累计值。
+    duration 350-380天且来自10-Q(而非10-K)的项目在分组前整体剔除(TTM噪音)。
     """
     from datetime import date
 
     def parse(d):
         return date.fromisoformat(d)
 
-    by_fy = defaultdict(list)
+    dedup = {}
     for f in facts:
-        by_fy[f["fy"]].append(f)
+        key = (f["start"], f["end"], f["val"])
+        dedup[key] = f
+    items = [
+        f for f in dedup.values()
+        if not (350 <= (parse(f["end"]) - parse(f["start"])).days <= 380 and f["form"] != "10-K")
+    ]
 
-    out = []
-    for fy, items in by_fy.items():
-        items = sorted(items, key=lambda x: parse(x["end"]))
-        prev_cum = 0
-        prev_end = None
-        for it in items:
-            dur = (parse(it["end"]) - parse(it["start"])).days
-            if dur <= 100:
-                # 已经是单季度披露
+    by_start = defaultdict(list)
+    for f in items:
+        by_start[f["start"]].append(f)
+
+    out = {}
+    for start, chain in by_start.items():
+        chain.sort(key=lambda f: parse(f["end"]))
+        prev_cum = None
+        for it in chain:
+            if prev_cum is None:
                 q_val = it["val"]
             else:
                 q_val = it["val"] - prev_cum
-            out.append(
-                {
-                    "fy": fy,
-                    "fp": it["fp"],
-                    "end": it["end"],
-                    "form": it["form"],
-                    "quarter_val": q_val,
-                }
-            )
             prev_cum = it["val"]
-            prev_end = it["end"]
-    return out
+            # 同一end日期可能被多条链算出一致的值(如MSFT的direct fact链与差分链)，
+            # 后处理的覆盖前面的，两者理论上应相等
+            out[it["end"]] = {
+                "fy": it["fy"], "fp": it["fp"], "end": it["end"], "form": it["form"], "quarter_val": q_val,
+            }
+
+    return list(out.values())
 
 
 def fetch_company(ticker: str, cik: str):
@@ -103,27 +122,31 @@ def fetch_company(ticker: str, cik: str):
 
     gaap = payload.get("facts", {}).get("us-gaap", {})
     result = {}
-    for key, tag in TAGS.items():
-        node = gaap.get(tag)
-        if not node:
-            print(f"  [WARN] {ticker} 缺少标签 {tag}", file=sys.stderr)
-            result[key] = []
-            continue
-        usd_facts = node.get("units", {}).get("USD", [])
-        # 只保留 10-Q / 10-K 的公司自身报告(非修订)
-        filtered = [
-            {
-                "start": f["start"],
-                "end": f["end"],
-                "val": f["val"],
-                "form": f["form"],
-                "fy": f["fy"],
-                "fp": f["fp"],
-            }
-            for f in usd_facts
-            if f.get("form") in ("10-Q", "10-K") and "start" in f
-        ]
-        result[key] = quarterize(filtered)
+    for key, tag_candidates in TAGS.items():
+        by_end = {}
+        for tag in tag_candidates:
+            node = gaap.get(tag)
+            if not node:
+                continue
+            usd_facts = node.get("units", {}).get("USD", [])
+            filtered = [
+                {
+                    "start": f["start"],
+                    "end": f["end"],
+                    "val": f["val"],
+                    "form": f["form"],
+                    "fy": f["fy"],
+                    "fp": f["fp"],
+                }
+                for f in usd_facts
+                if f.get("form") in ("10-Q", "10-K") and "start" in f
+            ]
+            for row in quarterize(filtered):
+                # 先到先得：排在前面的标签优先，同一end只用第一个覆盖到的标签的值
+                by_end.setdefault(row["end"], row)
+        if not by_end:
+            print(f"  [WARN] {ticker} 缺少标签 {tag_candidates}", file=sys.stderr)
+        result[key] = list(by_end.values())
 
     return result
 

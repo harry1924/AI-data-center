@@ -44,13 +44,18 @@
 
 ### F15/F14 — SEC EDGAR 四大厂商资本开支 (`data/raw/sec/capex_quarterly_by_fiscal_period.csv`)
 - 来源：`https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json`，XBRL标签
-  `PaymentsToAcquirePropertyPlantAndEquipment` + `NetCashProvidedByUsedInOperatingActivities`
+  `PaymentsToAcquirePropertyPlantAndEquipment`（AMZN 2017年后改用`PaymentsToAcquireProductiveAssets`，
+  已在脚本里加了标签回退逻辑）+ `NetCashProvidedByUsedInOperatingActivities`
 - 访问日期：2026-08-16
 - 覆盖：MSFT/AMZN/GOOGL/META，2008-2026逐季（按财季末日期，非日历季）
-- **真实亮点数字**：MSFT 2026财年Q4(2026-06-30)单季资本开支$850.72亿，经营现金流$1362.56亿；
-  META 2026Q2自由现金流骤降至$17.46亿（前一季度$132.29亿）
-- 已知限制：MSFT财年6月结束，需在清洗阶段做日历季对齐后才能与其余三家同图比较；
-  季度值由10-Q/10-K的累计披露值(YTD)差分还原，未做单独审计
+- **真实亮点数字**：MSFT 2026财年Q4(2026-06-30)单季资本开支$358.02亿，经营现金流$554.41亿；
+  四家合计capex/经营现金流比率2026Q2达96%，与报告草稿引用的"93%"基本吻合
+- **技术修正记录（重要）**：初版实现按XBRL的`fy`标签分组做累计值差分，未意识到MSFT/AMZN的10-Q
+  会同时披露"当季3个月"直接数值和"财年累计"数值，混算导致MSFT单季capex被错误放大到$850.72亿。
+  已改为按`start`日期分组做链式差分（同一start必然同属一条累计链），并用各公司10-K年度合计
+  逐一交叉验证（如MSFT FY2025四个季度加总=$645.51亿，与10-K年度数字完全一致）。
+- 已知限制：MSFT财年6月结束，已在清洗阶段(`src/clean/clean_sec_edgar.py`)按财季结束日期的
+  日历月份做日历季对齐，可与其余三家同图比较
 
 ### F03兜底/F05 — FRED全国电价 (`data/raw/fred/APU000072610.csv`)
 - 来源：`https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU000072610`（无需API key）
