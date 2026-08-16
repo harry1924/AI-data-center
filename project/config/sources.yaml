@@ -187,13 +187,17 @@ capex_and_finance:
   C2:
     name: "公司财报电话会与指引"
     level: A
-    content: "前瞻资本开支指引区间"
+    content: "前瞻资本开支指引区间(官方口径)，另附第三方分析师估计(标注为独立C级来源，仅作补充标注不进主柱)"
     frequency: quarterly
-    coverage: "2023-"
-    access: "手工录入"
+    coverage: "2026-"
+    access: "手工录入，WebSearch核对多篇财经媒体对财报电话会/官方新闻稿的转述"
     base_url: null
-    used_by: [F14]
-    env_status: manual
+    used_by: [F14, F15]
+    note: "2026-08-16应用户要求补充MSFT/AMZN/GOOGL/META/ORCL的2026-2028资本开支前瞻数据；
+      公司官方指引(level A，前瞻性质，历史上多次年内被上修)与第三方分析师估计(level C，
+      单一来源、方法论不透明，如Citi/UBS/SemiAnalysis)严格区分，图上用不同填充样式区分，
+      2028年几乎没有任何一家公司给出具体数字，仅有定性表述，未强行编数字"
+    env_status: obtained
   C3:
     name: "BLS PPI"
     level: A
