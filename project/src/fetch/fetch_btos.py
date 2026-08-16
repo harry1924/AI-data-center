@@ -50,8 +50,16 @@ Q_EXPECTED = (
 
 # 2025-11-17(period 88)起，原问题被替换为口径更宽的新问法("任意业务环节"而非"生产商品/服务")，
 # 是两个不同的指标，绝不可与上面的Q_CURRENT/Q_EXPECTED连成同一条线。分别抓取，分别标注metric。
-Q_CURRENT_V2 = "In the last two weeks, did this business use Artificial Intelligence (AI) in any of its business functions?"
-Q_EXPECTED_V2 = "During the next six months, do you think this business will be using Artificial Intelligence (AI)  in any of its business functions?"
+Q_CURRENT_V2 = (
+    "In the last two weeks, did this business use Artificial Intelligence (AI) in any of its "
+    "business functions? (Examples of AI: machine learning, natural language processing, "
+    "virtual agents, voice recognition, etc.)"
+)
+Q_EXPECTED_V2 = (
+    "During the next six months, do you think this business will be using Artificial "
+    "Intelligence (AI)  in any of its business functions? (Examples of AI: machine learning, "
+    "natural language processing, virtual agents, voice recognition, etc.)"
+)
 
 
 def is_national(row: dict) -> bool:
