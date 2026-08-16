@@ -1,0 +1,17 @@
+{
+  "source": "LBNL Queued Up 2026 Edition — Interconnection Queue Data File (through 2025)",
+  "url": "https://emp.lbl.gov/queues",
+  "provided_by": "user upload (emp.lbl.gov blocked by Cloudflare bot protection in this execution environment)",
+  "received": "2026-08-16",
+  "file": "LBNL_Queued_Up_thru2025.xlsx",
+  "notes": "官方原始数据文件，含40+张分析表(按主题命名的Excel sheet)。用于F09(并网队列时长/完成率/容量，全报告最关键的对照变量)。",
+  "sheets_used_for_F09": [
+    "37. IR to COD - all — 并网请求(IR)到商运(COD)的中位/p25/p75时长，按投产年份，2005-2025",
+    "29. IR to IA - all — 并网请求(IR)到并网协议(IA)签署的中位/p25/p75时长，2004-2025",
+    "34. IA to COD - all — 并网协议(IA)到商运(COD)的中位/p25/p75时长，2007-2025",
+    "23. Completion Rate Trend — 按申请年份的项目状态计数(Active/Operational/Withdrawn/Suspended)，据此计算完成率",
+    "05. Annual Requests — 按申请年份的新增申请数量与容量(GW)，2000-2025",
+    "21. Operational Volume Trend / 22. Withdrawn Volume Trend — 交叉验证用"
+  ],
+  "known_data_quality_issue": "sheet '07. Active Capacity by Year'(累计活跃队列容量)存在2018年数值异常跳升(2971.9GW)后2019年骤降(263.4GW)、无法从其余数据合理解释的不连续，怀疑是图表底层辅助表的口径切换或数据缺口，未采用此表，改用05sheet的年度新增申请容量替代"
+}

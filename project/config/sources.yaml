@@ -90,7 +90,7 @@ interconnection_and_grid:
     base_url: "https://emp.lbl.gov/queues"
     used_by: [F09, F10]
     priority: "最高——全报告的定盘星"
-    env_status: blocked_here
+    env_status: "obtained_via_user_upload (emp.lbl.gov本身仍被Cloudflare拦截，用户手动下载后上传xlsx，2026-08-16)"
   G2:
     name: "各 RTO 队列快照 (PJM/MISO/ERCOT)"
     level: A
