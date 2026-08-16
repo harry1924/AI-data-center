@@ -49,7 +49,7 @@ def main():
 
     ax.axvline(QUESTION_CHANGE_DATE, color=INK_MUTED, linewidth=1, linestyle=":", zorder=1)
     ax.text(
-        QUESTION_CHANGE_DATE, 0.97, " 2025-11-17起\n 问法改为更宽泛的\n “任意业务环节”",
+        QUESTION_CHANGE_DATE, 0.60, " 2025-11-17起\n 问法改为更宽泛的\n “任意业务环节”",
         transform=ax.get_xaxis_transform(), fontsize=7.5, color=INK_MUTED, va="top", ha="left",
     )
 

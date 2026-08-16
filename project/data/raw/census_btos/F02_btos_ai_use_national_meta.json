@@ -1,0 +1,15 @@
+{
+  "source": "Census Bureau Business Trends and Outlook Survey (BTOS), core AI questions",
+  "url_template": "https://www.census.gov/hfp/btos/api/periods/{period_id}/data",
+  "url_discovered_via": "front-end JS bundle (https://www.census.gov/hfp/btos/js/app.*.js), not in standard data.census.gov catalog",
+  "accessed": "2026-08-16T11:29:11.372770+00:00",
+  "question_current": "In the last two weeks, did this business use Artificial Intelligence (AI) in producing goods or services? (Examples of AI: machine learning, natural language processing, virtual agents, voice recognition, etc.)",
+  "question_expected": "During the next six months, do you think this business will be using Artificial Intelligence (AI) in producing goods or services? (Examples of AI: machine learning, natural language processing, virtual agents, voice recognition, etc.)",
+  "national_filter": "STATE=NAICS2=NAICS3=EMPSIZE=MSA=null",
+  "verification": "Period 31 (2023-09-11~09-24) Yes=3.7%，与NBER Working Paper w32319摘要一致",
+  "question_current_v2": "In the last two weeks, did this business use Artificial Intelligence (AI) in any of its business functions? (Examples of AI: machine learning, natural language processing, virtual agents, voice recognition, etc.)",
+  "question_expected_v2": "During the next six months, do you think this business will be using Artificial Intelligence (AI)  in any of its business functions? (Examples of AI: machine learning, natural language processing, virtual agents, voice recognition, etc.)",
+  "notes": "*_v1_goods_services: Period 31(2023-09-11)至Period 87(2025-11-16)期间的问法，限定'生产商品或服务'场景，可安全连成一条时间序列。*_v2_any_function: Period 88(2025-11-17)起替换为更宽泛的'任意业务环节使用AI'问法，是另一个不同的指标，两者绝不可连成同一条线(问法变了，口径不可比)。",
+  "coverage_actual": "periods 31-106 (2023-09-11 至 2026-08-09), 73/76期成功, 缺85-87三期(可能是问法切换窗口期真实的发布空档)",
+  "bug_fixed_note": "2026-08-16: 发现并修复Q_CURRENT_V2/Q_EXPECTED_V2字符串截断bug(漏了Examples of AI后缀)，修复前误判为API限流问题"
+}
