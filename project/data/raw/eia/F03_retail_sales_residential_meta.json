@@ -1,0 +1,23 @@
+{
+  "source": "EIA API v2 electricity/retail-sales",
+  "url": "https://api.eia.gov/v2/electricity/retail-sales/data/",
+  "series_params": {
+    "sectorid": "RES",
+    "states": [
+      "US",
+      "VA",
+      "OH",
+      "IL",
+      "MD",
+      "AZ",
+      "GA",
+      "WY",
+      "VT",
+      "MT"
+    ],
+    "start": "2015-01"
+  },
+  "accessed": "2026-08-16T10:31:31.226050+00:00",
+  "unit": "cents_per_kwh",
+  "notes": "居民部门(RES)月度电价，用于F03。US为全国均值，VA/OH/IL/MD/AZ/GA为数据中心密集州，WY/VT/MT为低密度对照组。"
+}

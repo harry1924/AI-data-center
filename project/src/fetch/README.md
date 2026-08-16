@@ -1,8 +1,8 @@
 # fetch 脚本使用说明
 
-四个脚本对应文档"阶段一：可API直取"(T1-T5)。2026-08-16第二轮测试：
-FRED / SEC EDGAR / BLS(QCEW+PPI) 已在本环境实际跑通，产出真实数据（见 `data/raw/`）。
-EIA 网络已通但需要免费 API key（未获取到）。
+四个脚本对应文档"阶段一：可API直取"(T1-T5)。2026-08-16：EIA / FRED / SEC EDGAR /
+BLS(QCEW+PPI) **全部四个数据源均已在本环境实际跑通**，产出真实数据（见 `data/raw/`），
+并已清洗+画出正式图表（见 `figures/`）。
 
 ## 技术说明：为什么用 curl 子进程而不是 requests/urllib
 
@@ -27,8 +27,8 @@ python fetch_fred.py                                                    # ✅已
 python fetch_sec_edgar.py                                               # ✅已验证 F14/F15
 python fetch_bls.py --dataset qcew --start-year 2014 --end-year 2026    # ✅已验证 F07 (2014年前该API无数据)
 python fetch_bls.py --dataset ppi                                       # ✅已验证 F17
-python fetch_eia.py --series retail-sales   # F03 分州电价，需EIA_API_KEY
-python fetch_eia.py --series power-annual   # F06 分母，需EIA_API_KEY
+python fetch_eia.py --series retail-sales   # ✅已验证 F03分州电价，需EIA_API_KEY
+python fetch_eia.py --series power-annual   # ✅已验证 F06分母，需EIA_API_KEY
 ```
 
 ## 已知细节
@@ -40,6 +40,12 @@ python fetch_eia.py --series power-annual   # F06 分母，需EIA_API_KEY
 - PPI序列`PCU335335`（电气设备大类）经验证无效，已从`PPI_SERIES`移除，只保留
   `PCU335311335311`（变压器制造业，已验证有效）
 - SEC companyfacts原始JSON体积较大(3-5MB/家)，已加入`.gitignore`不提交，只提交提取后的CSV
+- SEC资本开支季度值计算：MSFT/AMZN的10-Q会同时披露"当季3个月"直接数值和"财年累计"数值，
+  按XBRL的`fy`标签简单分组差分会混淆两者产生错误结果，已改为按`start`日期分组做链式差分，
+  见`fetch_sec_edgar.py`的`quarterize()`函数注释；AMZN在2017年后改用`PaymentsToAcquireProductiveAssets`
+  标签披露capex(不再用`PaymentsToAcquirePropertyPlantAndEquipment`)，已加标签回退逻辑
+- EIA的F03对照组州选择：原用WY/VT/MT，VT电价常年结构性偏高(~23-25¢/kWh，与该州电网结构
+  有关，与数据中心无关)，已换成ND，见`fetch_eia.py`里`STATES`列表的注释
 
 ## 跑完之后
 

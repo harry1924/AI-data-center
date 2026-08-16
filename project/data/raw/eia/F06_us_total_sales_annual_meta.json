@@ -1,0 +1,6 @@
+{
+  "source": "EIA API v2 electricity/retail-sales (全美总售电量，作F06分母)",
+  "url": "https://api.eia.gov/v2/electricity/retail-sales/data/",
+  "accessed": "2026-08-16T10:32:07.378710+00:00",
+  "unit": "million_kwh"
+}

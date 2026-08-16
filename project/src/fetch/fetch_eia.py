@@ -31,7 +31,9 @@ RAW_DIR.mkdir(parents=True, exist_ok=True)
 BASE_URL = "https://api.eia.gov/v2/electricity/retail-sales/data/"
 
 # F03 选取州：全国 + 数据中心密集州 + 对照组低密度州
-STATES = ["US", "VA", "OH", "IL", "MD", "AZ", "GA", "WY", "VT", "MT"]
+# 对照组原用WY/VT/MT，2026-08-16发现VT电价结构性偏高(~23-25美分/kWh，源于其电网结构，
+# 与数据中心无关)会引入噪音，改用WY/ND/MT
+STATES = ["US", "VA", "OH", "IL", "MD", "AZ", "GA", "WY", "ND", "MT"]
 
 
 def _get(url: str, params: dict):

@@ -4,11 +4,12 @@
 
 ---
 
-## 状态总览（更新于 2026-08-16，第二轮）
+## 状态总览（更新于 2026-08-16，第三轮）
 
 **重要变化**：第一轮执行时，本环境的出站网络代理策略拦截了几乎所有外部数据源。
-经用户调整环境网络策略后，**EIA之外的三个阶段一数据源（FRED、SEC EDGAR、BLS）
-现已实测可正常访问，并已真实拉取完整数据**，不再是零散的WebSearch转述。
+经用户调整环境网络策略后，FRED/SEC EDGAR/BLS三个源实测可正常访问并已拉取完整数据；
+随后用户又提供了EIA免费API key，**至此阶段一(T1-T5)全部四个数据源均已产出真实、
+完整、可复核的数据**，不再是零散的WebSearch转述。
 
 | 数据源 | 状态 | 说明 |
 |---|---|---|
@@ -16,7 +17,7 @@
 | **FRED** (E2→F03兜底/F05) | ✅ 真实完整数据 | APU000072610全国电价，1978-11至2026-07，573个月度观测点 |
 | **BLS QCEW** (J1→F07) | ✅ 真实完整数据 | NAICS 518210分县就业，2014-2025逐季，102,300行(受API本身覆盖范围限制，无2010-2013数据) |
 | **BLS PPI** (C3→F17) | ✅ 真实完整数据 | 变压器制造业PPI(PCU335311335311)，2017-2026月度，115行 |
-| **EIA** (E1/E3→F03/F06) | ⚠️ 网络可达，缺免费API key | 网络本身通畅，用无效key测试返回`API_KEY_INVALID`(证明非网络问题)；需用户提供在 https://www.eia.gov/opendata/register.php 申请的免费key |
+| **EIA** (E1/E3→F03/F06) | ✅ 真实完整数据 | 用户提供免费API key后，分州居民电价(10州×2015-2026月度，1,507行)+全美年度总售电量分母(2010-2025)均已拉取 |
 | **PJM** (E4→F04) | ⚠️ 网站可达，未找到直接数据文件 | www.pjm.com返回200，但RPM页面上的可下载文件都是流程文档/手册PDF，未找到BRA历年出清价汇总表，需要更深入的页面导航或从Monitoring Analytics年度报告里找 |
 | **LBNL emp.lbl.gov** (G1→F09) | ❌ 仍被拦截 | Cloudflare机器人防护返回403，与本会话代理无关(curl/Playwright headless浏览器+伪装UA均403，判断是Cloudflare对该IP段的Bot Fight Mode)；这是全报告最需要的数据源，仍未解决 |
 | CBRE/Cushman/Shovels.ai等 | 未尝试 | 本轮时间集中在验证并跑通已确认可达的四个源 |
@@ -78,17 +79,30 @@
 - **真实亮点数字**：指数从2017年1月231.5涨到2026年7月474.8，10年间+105%
 - 已知限制：无registrationkey时区间上限10年，已用完整年；若要拿2010-2016需另跑一次或申请key
 
+### F03(完整版) — EIA 分州居民电价 (`data/raw/eia/F03_retail_sales_residential.csv`)
+- 来源：EIA API v2 `electricity/retail-sales`，`sectorid=RES`（居民部门）
+- 访问日期：2026-08-16（用户提供免费API key）
+- 覆盖：US全国 + VA/OH/IL/MD/AZ/GA(数据中心密集州) + WY/ND/MT(低密度对照组)，2015-01至2026-05月度，1,507行
+- **真实亮点数字**：2026年最新值——密集州均值19.0¢/kWh > 全国均值18.4¢ > 对照组均值14.4¢/kWh；
+  2022年后密集州与对照组的差距明显拉开，与文档"密集州涨幅显著高于全国"的论点吻合
+- **数据质量修正记录**：对照组原选WY/VT/MT，实测发现VT电价常年在23-25¢/kWh
+  （佛蒙特州电网结构性因素，与数据中心无关），会给"低密度对照组"引入不相关噪音，
+  已换成ND(北达科他州，电价水平与WY/MT接近，同样是数据中心密度很低的州)
+- **待核实的真实异常值**：马里兰州(MD) 2026年3月单月电价飙升到35.85¢/kWh
+  （2月20.08¢→3月35.85¢→4月22.07¢），已确认是EIA真实数据、未做任何剔除处理，
+  推测可能与PJM容量市场费用结算周期有关(见F04数据源E4/E5)，值得核实后写入正文
+
 ---
 
 ## 待补数据源（下一步）
 
-1. **EIA (E1/E3)**：需要用户提供免费API key。网络本身已确认通畅。
-   拿到key后运行：`EIA_API_KEY=xxx python src/fetch/fetch_eia.py --series retail-sales`
-2. **PJM (E4)**：网站可达，但需要在 pjm.com 上找到实际的BRA历年出清价汇总页面/文件
+1. **PJM (E4)**：网站可达，但需要在 pjm.com 上找到实际的BRA历年出清价汇总页面/文件
    （不在RPM主页里，可能在"Markets & Operations > Capacity Market Results"下的具体表格页）
-3. **LBNL Queued Up (G1)**：Cloudflare拦截，curl+伪装UA+Playwright headless均403。
+2. **LBNL Queued Up (G1)**：Cloudflare拦截，curl+伪装UA+Playwright headless均403。
    建议：用户直接从 https://emp.lbl.gov/queues 手动下载XLSX后上传，或反馈给管理员看能否放开对
    `*.lbl.gov` 域名的访问（如果是本会话代理侧还有额外限制的话）
+3. **LBNL 数据中心用电报告 (E7)**：F06的分子(用电量)，PDF需人工录入约10个数字，
+   分母(EIA全美总售电量)已就绪于`data/raw/eia/F06_us_total_sales_annual.csv`
 
 ## 命名与更新规则
 
