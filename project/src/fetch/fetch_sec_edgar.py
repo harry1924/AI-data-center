@@ -25,17 +25,16 @@
 import json
 import os
 import sys
-import time
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError, URLError
+
+from _http import curl_get_json
 
 RAW_DIR = Path(__file__).resolve().parents[2] / "data" / "raw" / "sec"
 RAW_DIR.mkdir(parents=True, exist_ok=True)
 
-USER_AGENT = os.environ.get("SEC_USER_AGENT", "ai-data-center-report research@example.com")
+USER_AGENT = os.environ.get("SEC_USER_AGENT", "ai-data-center-report zhaoyu192403@gmail.com")
 
 CIKS = {
     "MSFT": "0000789019",
@@ -50,16 +49,8 @@ TAGS = {
 }
 
 
-def _get_json(url: str, retries: int = 3):
-    for attempt in range(retries):
-        try:
-            req = Request(url, headers={"User-Agent": USER_AGENT})
-            with urlopen(req, timeout=30) as resp:
-                return json.loads(resp.read().decode())
-        except (HTTPError, URLError) as e:
-            if attempt == retries - 1:
-                raise
-            time.sleep(2 ** attempt)
+def _get_json(url: str):
+    return curl_get_json(url, headers={"User-Agent": USER_AGENT})
 
 
 def quarterize(facts: list) -> list:

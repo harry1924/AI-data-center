@@ -25,37 +25,23 @@ import csv
 import json
 import os
 import sys
-import time
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError, URLError
+
+from _http import curl_get, curl_post_json
 
 RAW_DIR = Path(__file__).resolve().parents[2] / "data" / "raw" / "bls"
 RAW_DIR.mkdir(parents=True, exist_ok=True)
 
 NAICS_CODE = "518210"
 
-# PPI 候选序列（需在 BLS PPI 数据库核实最终 series id 后使用）：
-#   PCU335311335311 - Power, distribution & specialty transformer manufacturing (NAICS 335311)
-#   PCU335335       - Electrical equipment, appliance & component manufacturing (NAICS 335)
-#   WPU106          - 建材类相关 PPI 大类，用作对照
+# PPI 序列（2026-08-16实测验证）：
+#   PCU335311335311 - Power, distribution & specialty transformer manufacturing (NAICS 335311) [有效]
+# PCU335335 (电气设备大类) 实测返回"Series does not exist"，已移除；如需补充对照序列，
+# 需去 https://data.bls.gov/PDQWeb/pc 用行业代码搜索工具核实正确的series id格式。
 PPI_SERIES = {
     "transformers": "PCU335311335311",
-    "electrical_equipment": "PCU335335",
 }
-
-
-def _get(url: str, headers=None, retries: int = 3):
-    for attempt in range(retries):
-        try:
-            req = Request(url, headers=headers or {"User-Agent": "ai-data-center-report/1.0"})
-            with urlopen(req, timeout=60) as resp:
-                return resp.read().decode()
-        except (HTTPError, URLError) as e:
-            if attempt == retries - 1:
-                raise
-            time.sleep(2 ** attempt)
 
 
 def fetch_qcew(start_year: int, end_year: int):
@@ -65,7 +51,7 @@ def fetch_qcew(start_year: int, end_year: int):
         for qtr in [1, 2, 3, 4]:
             url = f"https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{NAICS_CODE}.csv"
             try:
-                text = _get(url)
+                text = curl_get(url, headers={"User-Agent": "ai-data-center-report/1.0"}).decode()
             except Exception as e:
                 print(f"[WARN] {year}Q{qtr} 拉取失败(可能尚未发布): {e}", file=sys.stderr)
                 continue
@@ -98,20 +84,20 @@ def fetch_qcew(start_year: int, end_year: int):
 def fetch_ppi():
     api_key = os.environ.get("BLS_API_KEY")
     url = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
-    headers = {"Content-type": "application/json"}
     series_ids = list(PPI_SERIES.values())
 
+    # 无 registrationkey 时 BLS v2 API 限制单次查询最多10年，且实测会返回请求区间里
+    # 最早的10年而非最近10年；因此无key时改请求最近10年(2017-2026)，比历史更早数据
+    # 对本报告(变压器涨价/交期论点)更有用。有key则可一次性拿完整2010-2026。
     payload = {
         "seriesid": series_ids,
-        "startyear": "2010",
+        "startyear": "2010" if api_key else "2017",
         "endyear": "2026",
     }
     if api_key:
         payload["registrationkey"] = api_key
 
-    req = Request(url, data=json.dumps(payload).encode(), headers={**headers, "User-Agent": "ai-data-center-report/1.0"})
-    with urlopen(req, timeout=30) as resp:
-        result = json.loads(resp.read().decode())
+    result = curl_post_json(url, payload, headers={"User-Agent": "ai-data-center-report/1.0"})
 
     if result.get("status") != "REQUEST_SUCCEEDED":
         print(f"[WARN] BLS API 返回: {result.get('message')}", file=sys.stderr)

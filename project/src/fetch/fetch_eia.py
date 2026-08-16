@@ -20,12 +20,10 @@ import csv
 import json
 import os
 import sys
-import time
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError, URLError
+
+from _http import curl_get_json
 
 RAW_DIR = Path(__file__).resolve().parents[2] / "data" / "raw" / "eia"
 RAW_DIR.mkdir(parents=True, exist_ok=True)
@@ -36,18 +34,8 @@ BASE_URL = "https://api.eia.gov/v2/electricity/retail-sales/data/"
 STATES = ["US", "VA", "OH", "IL", "MD", "AZ", "GA", "WY", "VT", "MT"]
 
 
-def _get(url: str, params: dict, retries: int = 3):
-    q = urlencode(params, doseq=True)
-    full_url = f"{url}?{q}"
-    for attempt in range(retries):
-        try:
-            req = Request(full_url, headers={"User-Agent": "ai-data-center-report/1.0"})
-            with urlopen(req, timeout=30) as resp:
-                return json.loads(resp.read().decode())
-        except (HTTPError, URLError) as e:
-            if attempt == retries - 1:
-                raise
-            time.sleep(2 ** attempt)
+def _get(url: str, params: dict):
+    return curl_get_json(url, params=params, headers={"User-Agent": "ai-data-center-report/1.0"})
 
 
 def fetch_retail_sales(api_key: str):

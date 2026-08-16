@@ -1,0 +1,10 @@
+{
+  "source": "FRED series APU000072610 (Average Price: Electricity per KWh in U.S. City Average)",
+  "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU000072610",
+  "accessed": "2026-08-16T06:29:32.371512+00:00",
+  "unit": "dollars_per_kwh",
+  "frequency": "monthly",
+  "coverage": "1978-11 to 2026-07",
+  "method": "公开CSV导出端点，无需API key",
+  "notes": "这是真实完整序列，非WebSearch转述。原文档字段名为cents_per_kwh，FRED实际单位是dollars/kWh，清洗时需*100转换为美分。"
+}

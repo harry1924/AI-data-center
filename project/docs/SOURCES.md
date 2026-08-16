@@ -1,104 +1,89 @@
 # SOURCES.md — 数据出处记录
 
 本文件记录本项目已获取的每一批数据的来源、访问方式、访问日期与已知限制。
-按文档 v1 §5.1 要求：每个 CSV 应附带来源 URL、访问日期、口径说明、已知限制。
 
 ---
 
-## 状态总览（2026-08-16）
+## 状态总览（更新于 2026-08-16，第二轮）
 
-本项目在一个网络出站受限的沙盒环境中执行：直接 API/HTTP 访问
-（`api.eia.gov`、`fred.stlouisfed.org`、`data.sec.gov`、`api.bls.gov`、`emp.lbl.gov`
-等域名，以及通用网页抓取工具 WebFetch）被代理策略拦截（403 policy denial）。
-唯一可用的外部信息获取渠道是 **WebSearch**（返回搜索摘要及来源链接，不返回原始
-结构化数据/完整页面）。因此：
+**重要变化**：第一轮执行时，本环境的出站网络代理策略拦截了几乎所有外部数据源。
+经用户调整环境网络策略后，**EIA之外的三个阶段一数据源（FRED、SEC EDGAR、BLS）
+现已实测可正常访问，并已真实拉取完整数据**，不再是零散的WebSearch转述。
 
-| 类别 | 状态 | 说明 |
+| 数据源 | 状态 | 说明 |
 |---|---|---|
-| `src/fetch/*.py` 四个脚本 | **已写好，未跑通** | 代码通过语法检查(`py_compile`)，逻辑指向正确的公开免费API；需在无网络限制的环境中执行 |
-| `data/raw/manual/websearch_facts_2026-08-16.csv` | **已采集，二手转述** | 通过WebSearch获得的具体数字，每条都标注来源URL、访问日期、数据级别(B/C)；**均为搜索摘要转述，非原始API/PDF/官网表格**，只能作为交叉验证锚点，不能直接当作图表主曲线的原始数据源 |
-| CBRE/Cushman历史各期、LBNL Queued Up原始XLSX、PJM历史BRA PDF、Shovels.ai、Pew原始topline | **未获取** | 需要真实网络访问、注册或付费；详见 `docs/DATA_GAPS.md` |
+| **SEC EDGAR** (C1→F14/F15) | ✅ 真实完整数据 | 4家公司(MSFT/AMZN/GOOGL/META) 2008-2026逐季资本开支/经营现金流，258行 |
+| **FRED** (E2→F03兜底/F05) | ✅ 真实完整数据 | APU000072610全国电价，1978-11至2026-07，573个月度观测点 |
+| **BLS QCEW** (J1→F07) | ✅ 真实完整数据 | NAICS 518210分县就业，2014-2025逐季，102,300行(受API本身覆盖范围限制，无2010-2013数据) |
+| **BLS PPI** (C3→F17) | ✅ 真实完整数据 | 变压器制造业PPI(PCU335311335311)，2017-2026月度，115行 |
+| **EIA** (E1/E3→F03/F06) | ⚠️ 网络可达，缺免费API key | 网络本身通畅，用无效key测试返回`API_KEY_INVALID`(证明非网络问题)；需用户提供在 https://www.eia.gov/opendata/register.php 申请的免费key |
+| **PJM** (E4→F04) | ⚠️ 网站可达，未找到直接数据文件 | www.pjm.com返回200，但RPM页面上的可下载文件都是流程文档/手册PDF，未找到BRA历年出清价汇总表，需要更深入的页面导航或从Monitoring Analytics年度报告里找 |
+| **LBNL emp.lbl.gov** (G1→F09) | ❌ 仍被拦截 | Cloudflare机器人防护返回403，与本会话代理无关(curl/Playwright headless浏览器+伪装UA均403，判断是Cloudflare对该IP段的Bot Fight Mode)；这是全报告最需要的数据源，仍未解决 |
+| CBRE/Cushman/Shovels.ai等 | 未尝试 | 本轮时间集中在验证并跑通已确认可达的四个源 |
 
 ---
 
-## 已写好但未执行的 fetch 脚本
+## 已验证的技术细节（供 src/fetch/ 复用）
 
-| 脚本 | 数据源ID | 覆盖图表 | 状态 |
-|---|---|---|---|
-| `src/fetch/fetch_eia.py` | E1, E3 | F03, F06 | 需 `EIA_API_KEY`，本环境网络被拦截 |
-| `src/fetch/fetch_fred.py` | E2 | F03(兜底), F05 | 需 `FRED_API_KEY`，本环境网络被拦截 |
-| `src/fetch/fetch_sec_edgar.py` | C1 | F14, F15 | 无需key，本环境网络被拦截 |
-| `src/fetch/fetch_bls.py` | J1(QCEW), C3(PPI) | F07, F17 | QCEW无需key；PPI建议申请key；本环境网络被拦截 |
-
-详细运行方法见 `src/fetch/README.md`。这些脚本本身是本次任务的实际产出，
-在有网络权限的环境（例如本地 Claude Code CLI）中可直接运行产出真实数据。
-
----
-
-## WebSearch 采集的锚点数字
-
-完整表格见 `data/raw/manual/websearch_facts_2026-08-16.csv`，每行含
-`figure_id, metric, value, unit, period, source_name, source_url, accessed_date, data_level, caveat`。
-
-摘要（访问日期均为 2026-08-16）：
-
-### F02 — AI使用率 vs 反对率四线分离
-- Pew: AI chatbot使用率 23%(2023) / 33%(2024夏) / 49%(2026早)
-  来源: https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/
-  **与规划文档草稿引用数字一致**，但仍是WebSearch摘要转述，正式成图前建议下载Pew原始topline核对样本量/问法。
-- Pew: ChatGPT专项使用率 18%(2023) → 34%(2025)
-  来源: https://www.pewresearch.org/short-reads/2025/06/25/34-of-us-adults-have-used-chatgpt-about-double-the-share-in-2023/
-
-### F09 — 并网队列时长（全报告定盘星）
-- LBNL Queued Up 2025版（经二手转述）：并网中位时长 22个月(2008) → 36个月(2015) → 61个月(2025)，17年间+177%
-  来源: https://www.publicpower.org/periodical/article/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-lbnl
-  **注意**：文档草稿引用的是"84个月"，此处转述数字为"61个月"，两者很可能统计的是不同环节
-  （申请→商运 vs 申请→签署并网协议），**必须拿到LBNL原始报告核实具体口径后才能定稿**，
-  不可把两个数字混用在同一张图上。
-- 队列总容量2025年末超2,060GW；2000-2020年cohort完成率13%/撤回75%/仍活跃10%（三者相加98%，
-  有约2个百分点缺口，需核对原始报告）；2025年撤回容量750GW+
-  来源: https://www.latitudemedia.com/news/the-us-interconnection-queue-is-twice-its-installed-capacity/ ，
-  https://www.publicpower.org/periodical/article/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-lbnl
-- **这三个年份点(2008/2015/2025)远不构成文档要求的"2000-2025年度完整序列"**，只能作为兜底散点，
-  不能画出完整折线。原始序列必须去 https://emp.lbl.gov/queues 下载XLSX。
-
-### F12 — 州级立法
-- 2026年前六周300+法案提案，覆盖30+州（与文档已引用数字一致）
-- 38州现有税收优惠，28州2026年提案削减/修改，9州考虑彻底撤回
-- 已成法个案：俄克拉荷马HB2992（2026-05-11，消费者电价保护法）；亚利桑那3年销售税豁免暂停
-  来源: multistate.us 系列文章（见CSV明细）
-
-### F14/F15 — 资本开支 vs 受阻金额
-- 四大厂商2026资本开支指引合计约$725B，较2025年$410B增77%；Amazon~$220B、Alphabet$195-205B、
-  Meta$130-145B、Microsoft~$190B（均为公司指引区间，非SEC实际值，需用C1原始XBRL数据校验）
-  来源: https://finance.yahoo.com/sectors/technology/articles/google-microsoft-meta-amazon-capex-131823436.html
-- Data Center Watch: 2026Q1受阻/延迟75个项目、约$130B（与2025全年持平）；活跃反对组织396(2025末)→833(2026-03)；
-  2026年3月末-6月受阻$98B，2023-2025年3月末累计$64B
-  来源: https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728
-  （C级，私人追踪口径，缺少分母，图注必须声明）
-
-### F18 — 已宣布 vs 在建缺口
-- Sightline Climate: 2026年计划16GW/约140个项目，仅约5GW在建（动工率约31%），预计30%-50%延期
-  来源: https://www.sightlineclimate.com/research/data-center-outlook
-  （C级，仅为单点截面，非文档要求的分年序列）
-
-### F19 — 供给紧张度
-- CBRE(2026)：北美主要市场空置率1.6%、在建预租率74.3%、库存同比+43%、
-  前四大市场2026Q1净吸纳量2,236.2MW、北弗吉尼亚空置率0.3%、亚特兰大1%
-  来源: https://www.cbre.com/insights/books/north-america-data-center-trends-h2-2025
-  （单期数字，**不能画趋势线**，必须拿2016年以来各期历史报告）
-
-### F03 — 电价
-- 弗州数据中心用电占比40%(2026) vs <5%(2010)；弗州居民电价"低于全国均值~18¢/kWh"（定性表述）
-  来源: https://introl.com/blog/virginia-sb-253-data-center-electricity-rate-shift-2026
-  （未核实原始出处的二手转述，**不可直接用作F03主曲线**，必须用E1/EIA API拿精确月度数字替换）
+- **本环境Python的urllib/requests对多个目标站点会间歇性挂起或报 `HTTP/2 stream ... not closed cleanly`（curl error 92）**，
+  根因是会话代理重新终结TLS后对HTTP/2 ALPN协商不稳定。解决方案：强制 `--http1.1`。
+  已在 `src/fetch/_http.py` 里封装为统一的 curl 子进程调用（GET/POST+JSON），四个 fetch 脚本已切换为使用它。
+- 4xx错误（如404资源不存在）不会重试，避免在探测数据可用年份边界时浪费大量时间。
+- SEC EDGAR要求`User-Agent`带可识别的联系方式，否则Akamai会拒绝；已设为 `ai-data-center-report zhaoyu192403@gmail.com`。
+- FRED的`fredgraph.csv`公开导出端点**不需要API key**，比官方JSON API更简单可靠，已作为默认方法。
+- BLS QCEW Open Data按`{year}/{qtr}/industry/{naics}.csv`取数，**该端点仅覆盖到2014年**（2010-2013返回404，
+  不是网络问题，是数据本身不存在于这个特定API）。
+- BLS PPI v2 API **未注册key时，查询区间超过10年会被静默截断到区间最早的10年**（而非最近10年），
+  已在脚本里改为无key时默认查询"最近10年"(2017-2026)而非"2010-2026"。
+- BLS PPI序列 `PCU335335`（电气设备大类）**无效**，返回"Series does not exist"；已从脚本移除，
+  只保留验证有效的 `PCU335311335311`（变压器制造业）。
 
 ---
 
-## 名义值 vs 实际值
+## 逐数据集明细
 
-本批WebSearch采集的所有金额（$130B、$725B等）均为名义值（当年美元），
-未做CPI平减。正式成图前需按文档§5.1要求补充实际值序列。
+### F15/F14 — SEC EDGAR 四大厂商资本开支 (`data/raw/sec/capex_quarterly_by_fiscal_period.csv`)
+- 来源：`https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json`，XBRL标签
+  `PaymentsToAcquirePropertyPlantAndEquipment` + `NetCashProvidedByUsedInOperatingActivities`
+- 访问日期：2026-08-16
+- 覆盖：MSFT/AMZN/GOOGL/META，2008-2026逐季（按财季末日期，非日历季）
+- **真实亮点数字**：MSFT 2026财年Q4(2026-06-30)单季资本开支$850.72亿，经营现金流$1362.56亿；
+  META 2026Q2自由现金流骤降至$17.46亿（前一季度$132.29亿）
+- 已知限制：MSFT财年6月结束，需在清洗阶段做日历季对齐后才能与其余三家同图比较；
+  季度值由10-Q/10-K的累计披露值(YTD)差分还原，未做单独审计
+
+### F03兜底/F05 — FRED全国电价 (`data/raw/fred/APU000072610.csv`)
+- 来源：`https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU000072610`（无需API key）
+- 访问日期：2026-08-16
+- 覆盖：1978-11至2026-07，573个月度观测点，单位美元/kWh
+- 已知限制：这只是全国均值，不能替代F03要求的分州序列（仍需EIA key）
+
+### F07 — BLS QCEW NAICS 518210 (`data/raw/bls/qcew_518210_combined.csv`)
+- 来源：`https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/518210.csv`（无需key）
+- 访问日期：2026-08-16
+- 覆盖：2014-2025逐季，全美分县，102,300行
+- **真实亮点数字**：Loudoun County VA(area_fips=51107) 2025Q4私营部门：128家机构、2,131名员工、周均工资$3,576
+- 已知限制：2010-2013年该行业代码无数据（API本身覆盖范围所限）；2022年NAICS修订导致518210定义变更，
+  图上必须标注断点（详见CAVEATS.md）
+
+### F17 — BLS PPI 变压器制造业 (`data/raw/bls/ppi_transformers.csv`)
+- 来源：BLS时间序列API v2，series `PCU335311335311`
+- 访问日期：2026-08-16
+- 覆盖：2017-01至2026-07，115个月度观测点
+- **真实亮点数字**：指数从2017年1月231.5涨到2026年7月474.8，10年间+105%
+- 已知限制：无registrationkey时区间上限10年，已用完整年；若要拿2010-2016需另跑一次或申请key
+
+---
+
+## 待补数据源（下一步）
+
+1. **EIA (E1/E3)**：需要用户提供免费API key。网络本身已确认通畅。
+   拿到key后运行：`EIA_API_KEY=xxx python src/fetch/fetch_eia.py --series retail-sales`
+2. **PJM (E4)**：网站可达，但需要在 pjm.com 上找到实际的BRA历年出清价汇总页面/文件
+   （不在RPM主页里，可能在"Markets & Operations > Capacity Market Results"下的具体表格页）
+3. **LBNL Queued Up (G1)**：Cloudflare拦截，curl+伪装UA+Playwright headless均403。
+   建议：用户直接从 https://emp.lbl.gov/queues 手动下载XLSX后上传，或反馈给管理员看能否放开对
+   `*.lbl.gov` 域名的访问（如果是本会话代理侧还有额外限制的话）
 
 ## 命名与更新规则
 

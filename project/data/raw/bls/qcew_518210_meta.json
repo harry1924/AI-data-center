@@ -1,0 +1,9 @@
+{
+  "source": "BLS QCEW Open Data API, NAICS 518210",
+  "url_template": "https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/518210.csv",
+  "accessed": "2026-08-16T07:53:33.297442+00:00",
+  "naics_revision_note": "2022年NAICS修订变更518210定义，2022年前后数据不可直接连续比较，需在图上标注断点。",
+  "coverage": "2014-2025 (2010-2013该行业代码API无数据，返回404，早于此API覆盖范围)",
+  "rows": 102300,
+  "sample_check": "Loudoun County VA(51107) 2025Q4 私营部门: 128家机构, 2131名员工, 周均工资3576美元 - 真实数据已核实"
+}

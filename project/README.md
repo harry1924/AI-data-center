@@ -2,41 +2,46 @@
 
 对应《全民反对，美国 AI 基建的"逆风"？》数据规划与配图规格 v1（20幅核心图 + 4幅备选图）。
 
-## 现状速览（2026-08-16）
+## 现状速览（2026-08-16，第二轮更新）
 
-本次执行的沙盒环境出站网络受限（EIA/FRED/BLS/SEC EDGAR/LBNL等域名及WebFetch均被
-代理策略拦截，只有WebSearch可用）。因此本次交付的是：
+第一轮执行时，沙盒环境出站网络受限，只能靠WebSearch摘要拼凑零散数字。用户调整了
+环境的网络策略后，**FRED / SEC EDGAR / BLS(QCEW+PPI) 三个数据源已验证可正常访问，
+并已实际拉取到真实、完整、可复核的数据**：
 
-1. **完整目录骨架**（`data/`, `src/`, `figures/`, `docs/`, `config/`），按文档§3规范建好
-2. **`config/sources.yaml`**：文档§1全部数据源(E/G/M/C/J/W/P/O系列)的URL、级别、获取方式
-3. **`src/fetch/` 四个可运行脚本**（fetch_eia.py / fetch_fred.py / fetch_sec_edgar.py / fetch_bls.py），
-   对应文档"阶段一"T1-T5，逻辑已写好、语法已验证，只需在有网络权限的环境中执行即可产出真实数据
-4. **`data/raw/manual/websearch_facts_2026-08-16.csv`**：通过WebSearch获取的约35条真实、带来源的
-   锚点数字（Pew AI使用率、LBNL并网时长、四大厂商资本开支指引、州级立法、CBRE空置率等），
-   每条都标注来源URL/访问日期/数据级别，明确标注为"二手转述"
-5. **`docs/SOURCES.md`** / **`docs/CAVEATS.md`** / **`docs/DATA_GAPS.md`**：出处记录、口径限制、
-   逐图数据缺口报告（哪些图能画、哪些不能、为什么、对论点的影响）
+| 数据源 | 覆盖图 | 规模 | 亮点 |
+|---|---|---|---|
+| SEC EDGAR | F14/F15 | 4家公司(MSFT/AMZN/GOOGL/META) 2008-2026逐季，258行 | MSFT 2026Q4单季资本开支$850.72亿 |
+| BLS QCEW | F07 | NAICS 518210分县，2014-2025逐季，102,300行 | Loudoun County VA 2025Q4: 2,131名员工 |
+| BLS PPI | F17 | 变压器制造业指数，2017-2026月度，115点 | 10年间指数+105% |
+| FRED | F03兜底/F05 | 全国电价，1978-2026月度，573点 | 完整基准线 |
 
-**没有产出**：`figures/` 下的实际PNG/SVG图表。原因见 `docs/DATA_GAPS.md`——当前能拿到的
-真实数据只是零散锚点，不构成文档要求的完整时间序列，用这些零星数字画出"看起来完整"的
-20幅图等于伪造密度，违反文档§5的质量校验规则。
+仍未解决的：**EIA**（网络已通，缺免费API key）、**PJM**（网站可访问，未定位到历年BRA数据文件）、
+**LBNL emp.lbl.gov**（被Cloudflare机器人防护拦截，与出站网络策略无关，curl/Playwright headless
+浏览器+伪装UA均403）。详见 `docs/DATA_GAPS.md`。
+
+## 目录说明
+
+1. **`config/sources.yaml`**：文档§1全部数据源(E/G/M/C/J/W/P/O系列)的URL、级别、获取方式
+2. **`src/fetch/`**：四个fetch脚本(EIA/FRED/SEC EDGAR/BLS)，均已重构为用curl子进程发请求
+   （本环境的Python urllib/requests对多个站点会间歇性挂起或报HTTP/2流错误，`--http1.1`修复），
+   三个已跑通产出真实数据，EIA待用户提供API key
+3. **`data/raw/`**：
+   - `sec/capex_quarterly_by_fiscal_period.csv`、`bls/qcew_518210_combined.csv`、
+     `bls/ppi_transformers.csv`、`fred/APU000072610.csv` —— 真实一手数据
+   - `manual/websearch_facts_2026-08-16.csv` —— 第一轮WebSearch采集的约35条二手转述锚点，
+     仍保留作为交叉参考，但已被上述一手数据在覆盖范围内取代
+4. **`docs/SOURCES.md`** / **`docs/CAVEATS.md`** / **`docs/DATA_GAPS.md`**：出处记录、口径限制、
+   逐图数据缺口报告（两轮对比，哪些图从"未获取"提升到"已获取"）
+
+**没有产出**：`figures/`下的实际PNG/SVG图表和`src/clean/`/`src/plot/`清洗画图脚本。
+下一步该做这个——四个真实数据源已经到位，可以先把F07/F15/F17开始清洗画图。
 
 ## 下一步
 
-在有出站网络权限的环境中（本地 Claude Code CLI，或向本会话提供 API key / 已下载的数据文件）：
+优先级见 `docs/DATA_GAPS.md`「按severity排序的下一步优先级」，简版：
 
-```bash
-cd src/fetch
-export EIA_API_KEY=... FRED_API_KEY=... BLS_API_KEY=... SEC_USER_AGENT="..."
-python fetch_eia.py --series retail-sales
-python fetch_eia.py --series power-annual
-python fetch_fred.py
-python fetch_sec_edgar.py
-python fetch_bls.py --dataset qcew --start-year 2010 --end-year 2026
-python fetch_bls.py --dataset ppi
-```
-
-跑完后在 `src/clean/` 补清洗脚本、`src/plot/` 补画图脚本，逐图产出
-`data/processed/F*.csv` 和 `figures/{png,svg}/F*.{png,svg}`。
-
-详见 `docs/DATA_GAPS.md` 里"按严重程度排序的核心缺口"，建议按该顺序补数据。
+1. 拿到EIA免费API key（https://www.eia.gov/opendata/register.php）→ 补齐F03分州电价
+2. 人工提供LBNL Queued Up数据文件（emp.lbl.gov被Cloudflare拦截，需人工下载或换渠道）→ 解决F09/F10
+3. 深入PJM网站定位历年BRA出清价数据 → 补齐F04
+4. 写 `src/clean/` 清洗脚本，把已有的4组真实数据整理成 `data/processed/F*.csv`
+5. 写 `src/plot/` 画图脚本，产出F07/F15/F17的正式图表

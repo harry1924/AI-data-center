@@ -1,0 +1,9 @@
+{
+  "source": "BLS PPI, series PCU335311335311",
+  "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+  "accessed": "2026-08-16T06:44:59.308064+00:00",
+  "series_map": {
+    "transformers": "PCU335311335311"
+  },
+  "note": "series id 需在 https://data.bls.gov/PDQWeb/pc 核实后再正式使用"
+}
