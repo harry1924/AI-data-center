@@ -1,0 +1,373 @@
+# config/sources.yaml
+# 数据源集中配置。对应报告《全民反对，美国 AI 基建的"逆风"？》数据规划 v1 §1。
+# level: A=骨架(政府/法定/监管) B=补充(方法论公开的商业研究) C=标注(私人追踪/单次调查，不单独成图)
+# env_status: 记录本沙盒环境(2026-08-16测试)对该源的可达性，供后续在有网络权限的环境中复核。
+#   - blocked_here: 出站代理策略拦截(curl/requests均403 policy denial)，需在无此限制的环境重跑fetch脚本
+#   - registration_required: 需注册/登录才能拿历史各期
+#   - paid: 需付费订阅
+#   - manual_pdf: 无API，需下载PDF/XLS后手工/解析录入
+
+electricity_and_rates:
+  E1:
+    name: "EIA API v2 electricity/retail-sales"
+    level: A
+    content: "分州分部门电价、售电量、客户数"
+    frequency: monthly
+    coverage: "2001-"
+    access: "REST API, 需免费 key (https://www.eia.gov/opendata/register.php)"
+    base_url: "https://api.eia.gov/v2/electricity/retail-sales/data/"
+    used_by: [F03]
+    env_status: blocked_here
+  E2:
+    name: "FRED APU000072610"
+    level: A
+    content: "美国城市平均电价 ¢/kWh"
+    frequency: monthly
+    coverage: "1978-"
+    access: "FRED API, 需免费 key (https://fred.stlouisfed.org/docs/api/api_key.html)"
+    base_url: "https://api.stlouisfed.org/fred/series/observations"
+    used_by: [F03, F05]
+    env_status: blocked_here
+  E3:
+    name: "EIA Electric Power Annual"
+    level: A
+    content: "全美总发电与用电"
+    frequency: annual
+    coverage: "1949-"
+    access: "CSV 下载"
+    base_url: "https://www.eia.gov/electricity/annual/"
+    used_by: [F03, F06]
+    env_status: blocked_here
+  E4:
+    name: "PJM Base Residual Auction 结果"
+    level: A
+    content: "容量出清价 $/MW-day、采购量"
+    frequency: "annual (交割年度)"
+    coverage: "2007/08-"
+    access: "PJM 官网 PDF/XLS"
+    base_url: "https://www.pjm.com/markets-and-operations/rpm"
+    used_by: [F04]
+    env_status: blocked_here
+  E5:
+    name: "Monitoring Analytics State of the Market"
+    level: A
+    content: "容量成本归因、反事实测算"
+    frequency: annual
+    coverage: "2005-"
+    access: "官网 PDF"
+    base_url: "https://www.monitoringanalytics.com/reports/PJM_State_of_the_Market/"
+    used_by: [F04, F05]
+    env_status: blocked_here
+  E6:
+    name: "MISO Planning Resource Auction"
+    level: A
+    content: "分区容量出清价"
+    frequency: annual
+    coverage: "2010-"
+    access: "MISO 官网"
+    base_url: "https://www.misoenergy.org/markets-and-operations/RSCFA/"
+    used_by: [F04]
+    env_status: blocked_here
+  E7:
+    name: "LBNL 数据中心用电报告"
+    level: A
+    content: "数据中心用电量与占比"
+    frequency: "irregular (2016/2024/2025)"
+    coverage: "2014/2018/2023 + 情景"
+    access: "PDF，需手工录入"
+    base_url: "https://eta.lbl.gov/publications/2024-united-states-data-center-energy-usage-report"
+    used_by: [F06]
+    env_status: blocked_here
+
+interconnection_and_grid:
+  G1:
+    name: "LBNL Queued Up"
+    level: A
+    content: "队列容量、完成率、中位并网时长"
+    frequency: annual
+    coverage: "2000-"
+    access: "官网 XLSX + PDF"
+    base_url: "https://emp.lbl.gov/queues"
+    used_by: [F09, F10]
+    priority: "最高——全报告的定盘星"
+    env_status: blocked_here
+  G2:
+    name: "各 RTO 队列快照 (PJM/MISO/ERCOT)"
+    level: A
+    content: "队列项目数与容量、大负荷申请"
+    frequency: "quarterly/monthly (因区而异)"
+    coverage: "因区而异"
+    access: "官网下载"
+    base_url: null
+    used_by: [F09_fallback]
+    env_status: blocked_here
+  G3:
+    name: "FERC RM26-4 及 show-cause 文件"
+    level: A
+    content: "参与者付费改革进展"
+    frequency: event
+    coverage: "2025-"
+    access: "FERC eLibrary"
+    base_url: "https://elibrary.ferc.gov/eLibrary/search"
+    used_by: [F08]
+    env_status: blocked_here
+
+supply_and_market:
+  M1:
+    name: "CBRE North America Data Center Trends"
+    level: B
+    content: "在建MW、空置率、预租率、吸纳量，分市场"
+    frequency: semiannual
+    coverage: "2016-"
+    access: "需注册下载历史各期"
+    base_url: "https://www.cbre.com/insights/reports"
+    used_by: [F19, F20]
+    priority: "必须拿全历史各期，否则无法画趋势"
+    env_status: registration_required
+  M2:
+    name: "Cushman & Wakefield Americas Data Center Update"
+    level: B
+    content: "运营/在建容量、预承诺率、分州"
+    frequency: semiannual
+    coverage: "约2019-"
+    access: "官网"
+    base_url: "https://www.cushmanwakefield.com/en/united-states/insights"
+    used_by: [F19, F20, F18]
+    env_status: registration_required
+  M3:
+    name: "datacenterHawk"
+    level: B
+    content: "分市场季度供给"
+    frequency: quarterly
+    coverage: "2015-"
+    access: "部分付费"
+    base_url: "https://www.datacenterhawk.com/"
+    used_by: []
+    env_status: paid
+  M4:
+    name: "JLL Global Data Center Outlook"
+    level: B
+    content: "建设成本/MW、选址因素排序"
+    frequency: annual
+    coverage: "2018-"
+    access: "官网"
+    base_url: "https://www.jll.com/en/trends-and-insights"
+    used_by: [F16, F17]
+    env_status: blocked_here
+  M5:
+    name: "Turner & Townsend Data Centre Cost Index"
+    level: B
+    content: "分城市建设成本 $/W"
+    frequency: annual
+    coverage: "2019-"
+    access: "官网"
+    base_url: "https://www.turnerandtownsend.com/en/perspectives/"
+    used_by: [F16, F17]
+    env_status: blocked_here
+
+capex_and_finance:
+  C1:
+    name: "SEC EDGAR companyfacts API"
+    level: A
+    content: "MSFT/AMZN/GOOGL/META 资本开支、经营现金流、自由现金流"
+    frequency: quarterly
+    coverage: "2009-"
+    access: "免费 REST API, 无需key"
+    base_url: "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
+    xbrl_tag: "PaymentsToAcquirePropertyPlantAndEquipment"
+    ciks:
+      MSFT: "0000789019"
+      AMZN: "0001018724"
+      GOOGL: "0001652044"
+      META: "0001326801"
+    used_by: [F14, F15]
+    note: "微软财年6月结束，需做日历年/季对齐"
+    env_status: blocked_here
+  C2:
+    name: "公司财报电话会与指引"
+    level: A
+    content: "前瞻资本开支指引区间"
+    frequency: quarterly
+    coverage: "2023-"
+    access: "手工录入"
+    base_url: null
+    used_by: [F14]
+    env_status: manual
+  C3:
+    name: "BLS PPI"
+    level: A
+    content: "变压器、电气设备、建材价格指数"
+    frequency: monthly
+    coverage: "1980s-"
+    access: "BLS API"
+    base_url: "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+    used_by: [F16, F17]
+    env_status: blocked_here
+
+employment_and_economy:
+  J1:
+    name: "BLS QCEW NAICS 518210"
+    level: A
+    content: "分县就业人数、工资，数据处理与托管业"
+    frequency: quarterly
+    coverage: "1990-"
+    access: "BLS API / 批量下载"
+    base_url: "https://data.bls.gov/cew/data/api/"
+    note: "2022年NAICS修订导致518210定义变更，图上需标断点"
+    used_by: [F07]
+    env_status: blocked_here
+  J2:
+    name: "Virginia JLARC"
+    level: A
+    content: "典型设施建设期与运营期岗位"
+    frequency: one_time
+    coverage: "2024"
+    access: "PDF 手工录入"
+    base_url: "https://jlarc.virginia.gov/"
+    used_by: [F07]
+    env_status: manual_pdf
+  J3:
+    name: "Census County Business Patterns"
+    level: A
+    content: "分县企业数与就业交叉验证"
+    frequency: annual
+    coverage: "1986-"
+    access: "API"
+    base_url: "https://api.census.gov/data/cbp"
+    used_by: [F07_crosscheck]
+    env_status: blocked_here
+
+water:
+  W1:
+    name: "USGS Water Use in the United States"
+    level: A
+    content: "分县取水量，分部门"
+    frequency: "every 5 years"
+    coverage: "1950-2020"
+    access: "官网数据集"
+    base_url: "https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states"
+    used_by: [F22]
+    env_status: blocked_here
+  W2:
+    name: "Ren et al. Small Bottle Big Pipe (arXiv 2603.02705)"
+    level: A
+    content: "10个站点社区供水负担指数 0.2%-134%"
+    frequency: one_time
+    coverage: "2026"
+    access: "arXiv PDF"
+    base_url: "https://arxiv.org/abs/2603.02705"
+    used_by: [F22]
+    env_status: blocked_here
+  W3:
+    name: "LBNL 2024 用电报告水章节"
+    level: A
+    content: "现场直接用水、间接发电用水、水强度"
+    frequency: one_time
+    coverage: "2014/2023"
+    access: PDF
+    base_url: "https://eta.lbl.gov/publications/2024-united-states-data-center-energy-usage-report"
+    used_by: [F22]
+    env_status: blocked_here
+
+polling:
+  P1:
+    name: "Pew American Trends Panel"
+    level: B
+    content: "AI使用率、AI态度、数据中心影响认知"
+    sample: "概率面板 n≈5000-8500"
+    points: "2021-2026 多波，最佳序列"
+    access: "官网 topline + 微数据"
+    base_url: "https://www.pewresearch.org/"
+    used_by: [F01, F02]
+    role: "主序列，画折线"
+    env_status: blocked_here
+  P2:
+    name: "Gallup"
+    level: B
+    content: "本地AI数据中心反对"
+    sample: "概率电话 n=1000"
+    points: "2026-03 单点"
+    access: "官网"
+    base_url: "https://news.gallup.com/"
+    used_by: [F01, F02]
+    role: "散点"
+    env_status: blocked_here
+  P3:
+    name: "宾大 Annenberg"
+    level: B
+    content: "数据中心反对+交叉分析"
+    sample: "n=1320"
+    points: "2026年2波"
+    access: "官网"
+    base_url: "https://www.annenbergpublicpolicycenter.org/"
+    used_by: [F01, F02]
+    role: "散点"
+    env_status: blocked_here
+  P4:
+    name: "Change Research"
+    level: C
+    content: "全美建设支持/反对"
+    sample: "登记选民，非概率"
+    points: "3点"
+    access: "媒体转述/官网"
+    base_url: null
+    used_by: [F01]
+    role: "虚线示意，注明非概率样本，禁止当真序列"
+    env_status: blocked_here
+  P5:
+    name: "Ipsos Consumer Tracker"
+    level: B
+    content: "能源/环境担忧"
+    sample: "加权非概率在线"
+    points: "多波"
+    access: "官网"
+    base_url: "https://www.ipsos.com/en-us"
+    used_by: [F01]
+    role: "散点"
+    env_status: blocked_here
+
+opposition_and_policy_tracking:
+  O1:
+    name: "Data Center Watch (10a Labs)"
+    level: C
+    content: "受阻/延迟金额与项目数、反对组织数"
+    access: "官网摘要"
+    base_url: null
+    used_by: [F02, F14]
+    role: "事件标注、副轴。图注须写明私人追踪口径，缺少分母"
+    env_status: blocked_here
+  O2:
+    name: "Sightline Climate / Currence"
+    level: C
+    content: "190GW/777项目就绪度曲线、动工率"
+    access: "官网"
+    base_url: null
+    used_by: [F18]
+    role: "副轴"
+    env_status: blocked_here
+  O3:
+    name: "FracTracker 开放数据集"
+    level: C
+    content: "反对事件地理分布"
+    access: "官网开放数据"
+    base_url: "https://www.fractracker.org/"
+    used_by: [F23]
+    role: "地图"
+    env_status: blocked_here
+  O4:
+    name: "MultiState / NCSL 立法数据库"
+    level: B
+    content: "州级法案提案数与成法数"
+    access: "官网/数据库"
+    base_url: "https://www.ncsl.org/"
+    used_by: [F12]
+    role: "计数客观，可作主图"
+    env_status: blocked_here
+  O5:
+    name: "Shovels.ai"
+    level: "B(若可得)"
+    content: "建筑许可与审批时长"
+    access: "付费API"
+    base_url: "https://www.shovels.ai/"
+    used_by: [F13]
+    env_status: paid

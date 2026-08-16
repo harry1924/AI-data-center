@@ -1,0 +1,42 @@
+figure_id,metric,value,unit,period,source_name,source_url,accessed_date,data_level,caveat
+F02,AI chatbot使用率-2023,23,percent,2023,Pew Research Center,https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/,2026-08-16,B,"WebSearch摘要转述,非原始topline PDF,需核对样本量与问法原文"
+F02,AI chatbot使用率-2024夏,33,percent,2024-summer,Pew Research Center,https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/,2026-08-16,B,同上
+F02,AI chatbot使用率-2026早,49,percent,2026-early,Pew Research Center,https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/,2026-08-16,B,同上;与规划文档F02引用数字一致(23/33/49)
+F02,ChatGPT使用率-2023,18,percent,2023,Pew Research Center,https://www.pewresearch.org/short-reads/2025/06/25/34-of-us-adults-have-used-chatgpt-about-double-the-share-in-2023/,2026-08-16,B,WebSearch摘要转述
+F02,ChatGPT使用率-2025,34,percent,2025,Pew Research Center,https://www.pewresearch.org/short-reads/2025/06/25/34-of-us-adults-have-used-chatgpt-about-double-the-share-in-2023/,2026-08-16,B,WebSearch摘要转述
+F09,并网中位时长(请求到COD)-2008,22,months,2008,LBNL Queued Up 2025 Edition (via American Public Power Association转述),https://www.publicpower.org/periodical/article/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-lbnl,2026-08-16,B,"二手转述,非LBNL原始XLSX;仅3个年份点(2008/2015/2025),远不足以支撑F09要求的年度完整序列,必须补拉emp.lbl.gov原始数据"
+F09,并网中位时长(请求到COD)-2015,36,months,2015,LBNL Queued Up 2025 Edition (via转述),https://www.publicpower.org/periodical/article/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-lbnl,2026-08-16,B,同上
+F09,并网中位时长(请求到COD)-2025,61,months,2025,LBNL Queued Up 2025 Edition (via转述),https://www.publicpower.org/periodical/article/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-lbnl,2026-08-16,B,同上;此数字略高于文档草稿引用的"84个月"口径,两者可能统计不同环节(请求-COD vs 请求-并网协议),需与原始报告核对避免混用
+F09,并网队列总容量-2025年末,2060,GW,2025-EOY,LBNL Queued Up 2025 Edition (via Latitude Media转述),https://www.latitudemedia.com/news/the-us-interconnection-queue-is-twice-its-installed-capacity/,2026-08-16,B,二手转述
+F09,完成率(2000-2020申请截至2025年底),13,percent,2000-2020 cohort as of 2025,LBNL Queued Up 2025 Edition (via转述),https://www.publicpower.org/periodical/article/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-lbnl,2026-08-16,B,"同cohort撤回率75%+活跃10%+完成13%=98%,存在约2个百分点的口径缺口,需核对原始报告"
+F09,2025年撤回容量,750,GW,2025,LBNL Queued Up 2025 Edition (via转述),https://www.publicpower.org/periodical/article/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-lbnl,2026-08-16,B,二手转述
+F14/F15,四大厂商2026资本开支合计指引,725,USD_billion,2026,综合Yahoo Finance/CNBC/Statista转述Q2 2026财报电话会,https://finance.yahoo.com/sectors/technology/articles/google-microsoft-meta-amazon-capex-131823436.html,2026-08-16,B,"公司指引区间,非SEC实际披露数字;应以C1(SEC EDGAR原始XBRL)校验,此处仅作交叉参考"
+F14/F15,2025年四大厂商资本开支合计,410,USD_billion,2025,同上,https://finance.yahoo.com/sectors/technology/articles/google-microsoft-meta-amazon-capex-131823436.html,2026-08-16,B,同上
+F14/F15,Amazon 2026资本开支指引(上修后),220,USD_billion,2026,同上,https://finance.yahoo.com/sectors/technology/articles/google-microsoft-meta-amazon-capex-131823436.html,2026-08-16,B,同上
+F14/F15,Alphabet 2026资本开支指引(上修后),195-205,USD_billion,2026,同上,https://finance.yahoo.com/sectors/technology/articles/google-microsoft-meta-amazon-capex-131823436.html,2026-08-16,B,同上
+F14/F15,Meta 2026资本开支指引(上修后),130-145,USD_billion,2026,同上,https://finance.yahoo.com/sectors/technology/articles/google-microsoft-meta-amazon-capex-131823436.html,2026-08-16,B,同上
+F14/F15,Microsoft 2026资本开支指引,190,USD_billion,2026,同上,https://finance.yahoo.com/sectors/technology/articles/google-microsoft-meta-amazon-capex-131823436.html,2026-08-16,B,同上
+F12,2026年前六周州级法案提案数,300+,count,2026 first 6 weeks,MultiState/NCSL(via NBC News转述),https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728,2026-08-16,B,与规划文档已引用数字一致
+F12,提供数据中心税收优惠的州数,38,count,2026,NCSL(via MultiState转述),https://www.multistate.us/insider/2026/2/20/state-data-center-legislation-in-2026-tackles-energy-and-tax-issues,2026-08-16,B,二手转述
+F12,2026年提出削减/修改税收优惠法案的州数,28,count,2026,NCSL(via MultiState转述),https://www.multistate.us/insider/2026/2/20/state-data-center-legislation-in-2026-tackles-energy-and-tax-issues,2026-08-16,B,二手转述
+F12,考虑彻底撤回税收优惠的州数,9,count,2026,NCSL(via MultiState转述),https://www.multistate.us/insider/2026/2/20/state-data-center-legislation-in-2026-tackles-energy-and-tax-issues,2026-08-16,B,二手转述
+F12,俄克拉荷马州HB2992成法(消费者电价保护法),1,event,2026-05-11,MultiState,https://www.multistate.us/insider/2026/4/14/federal-ai-data-center-policy-meets-resistance-from-state-lawmakers,2026-08-16,B,单一事件标注
+F12,亚利桑那州数据中心销售税豁免暂停(3年),1,event,2026-07 to 2029-06,MultiState,https://www.multistate.us/insider/2026/6/22/state-data-center-policy-shifts-as-governors-impose-new-restrictions,2026-08-16,B,单一事件标注
+F14,Data Center Watch Q1 2026受阻/延迟项目金额,130,USD_billion,2026-Q1,Data Center Watch (10a Labs) via NBC News,https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728,2026-08-16,C,"私人追踪口径,缺少分母;二手转述,非原始报告;图注必须声明为项目公告价值而非已投入资本"
+F14,Data Center Watch Q1 2026受阻/延迟项目数,75,count,2026-Q1,同上,https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728,2026-08-16,C,同上
+F14,活跃反对组织数-2025年末,396,count,2025-EOY,Data Center Watch via NBC News,https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728,2026-08-16,C,私人追踪口径,缺少分母
+F14,活跃反对组织数-2026年3月,833,count,2026-03,Data Center Watch via NBC News,https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728,2026-08-16,C,私人追踪口径,缺少分母
+F14,Data Center Watch 2026年3月末-6月受阻金额,98,USD_billion,2026 late-Mar to Jun,Data Center Watch via二手转述,https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728,2026-08-16,C,私人追踪口径,缺少分母
+F14,Data Center Watch 2023-2025年3月末累计受阻金额,64,USD_billion,2023 to 2025-03,Data Center Watch via二手转述,https://www.nbcnews.com/tech/tech-news/data-center-opposition-sharply-rising-2026-study-finds-rcna349728,2026-08-16,C,私人追踪口径,缺少分母
+F19,CBRE北美主要市场空置率,1.6,percent,2026,CBRE(via搜索摘要转述),https://www.cbre.com/insights/books/north-america-data-center-trends-h2-2025,2026-08-16,B,"WebSearch摘要转述,非原始半年报PDF;必须补拉2016年以来各期原始报告才能画趋势线,单期数字不能成图"
+F19,CBRE在建容量预租率,74.3,percent,2026,CBRE(via搜索摘要转述),https://www.cbre.com/insights/books/north-america-data-center-trends-h2-2025,2026-08-16,B,同上
+F19,北美主要市场库存同比增速,43,percent,2026 YoY,CBRE(via搜索摘要转述),https://www.cbre.com/insights/books/north-america-data-center-trends-h2-2025,2026-08-16,B,同上
+F19,北美前四大市场净吸纳量-2026Q1,2236.2,MW,2026-Q1,CBRE(via搜索摘要转述),https://www.cbre.com/insights/books/north-america-data-center-trends-h2-2025,2026-08-16,B,同上
+F19,北弗吉尼亚空置率,0.3,percent,2026,CBRE(via搜索摘要转述),https://www.cbre.com/insights/books/north-america-data-center-trends-h2-2025,2026-08-16,B,同上
+F19,亚特兰大空置率,1.0,percent,2026,CBRE(via搜索摘要转述),https://www.cbre.com/insights/books/north-america-data-center-trends-h2-2025,2026-08-16,B,同上
+F18,2026年计划投产数据中心容量,16,GW,2026,Sightline Climate(via二手转述),https://www.sightlineclimate.com/research/data-center-outlook,2026-08-16,C,"私人追踪口径,缺少分母;必须以此为线索去Sightline官网核实原始分年序列,当前只是单点截面"
+F18,2026年实际在建容量,5,GW,2026,Sightline Climate(via二手转述),https://www.sightlineclimate.com/research/data-center-outlook,2026-08-16,C,同上;隐含动工率约31%(5/16),这是动工率不是最终兑现率
+F18,预计延期比例,30-50,percent,2026,Sightline Climate(via二手转述),https://www.sightlineclimate.com/research/data-center-outlook,2026-08-16,C,同上
+F03,弗吉尼亚数据中心用电占比-2026,40,percent,2026,二手媒体转述(未核实原始EIA/州PUC数据),https://introl.com/blog/virginia-sb-253-data-center-electricity-rate-shift-2026,2026-08-16,C,"未核实原始出处,需用E1/E7交叉验证,不可直接成图"
+F03,弗吉尼亚数据中心用电占比-2010,5,percent,2010,同上,https://introl.com/blog/virginia-sb-253-data-center-electricity-rate-shift-2026,2026-08-16,C,同上
+F03,弗吉尼亚居民电价水平-2026年5月,below national average (~18 cents/kWh),cents_per_kwh_relative,2026-05,二手媒体转述,https://introl.com/blog/virginia-sb-253-data-center-electricity-rate-shift-2026,2026-08-16,C,"定性表述,非精确数值;必须用E1(EIA API)拿精确月度序列替换,这条WebSearch数字不可直接用于F03主曲线"

@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+data/raw/eia/*.json
+data/raw/eia/*.csv
+data/raw/sec/*_raw.json
