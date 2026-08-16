@@ -269,6 +269,32 @@ water:
     used_by: [F22]
     env_status: blocked_here
 
+ai_adoption:
+  BTOS1:
+    name: "Census Bureau Business Trends and Outlook Survey (BTOS), 核心AI问题"
+    level: A
+    content: "企业是否在生产商品/服务(2023-09至2025-11问法)及任意业务环节(2025-11起新问法)中使用AI，全国口径"
+    frequency: biweekly
+    coverage: "2023-09-11 至今"
+    access: "REST API，无需key，但端点不在标准data.census.gov目录，需从BTOS官网前端JS逆向找到"
+    base_url: "https://www.census.gov/hfp/btos/api/periods/{period_id}/data"
+    used_by: [F02_business_adoption]
+    priority: "回应用户需求'AI应用深度增加/工作中使用增加'的最佳数据源"
+    env_status: obtained
+    notes: "period 31=2023-09-11起；period 88=2025-11-17起问法切换，不可与之前的数据连成一条线；
+      国家层面'全null'汇总行在个别period会被限流返回null，需要重试+间隔请求"
+  BOA1:
+    name: "Bank of America Institute《Not quite mAInstream: A consumer AI adoption profile》"
+    level: B
+    content: "美国银行自有信用卡/ACH交易数据识别的家庭AI服务付费情况"
+    frequency: "不定期研究报告(此次为2026-03-30版)"
+    coverage: "2024年均值 vs 2026年2月两个精确锚点+月度指数图(未做像素级读取)"
+    access: "PDF报告"
+    base_url: "https://institute.bankofamerica.com/content/dam/economic-insights/consumer-ai-usage.pdf"
+    used_by: [F02_paying_customers]
+    env_status: obtained
+    notes: "非全国代表性抽样，只覆盖美国银行自身活跃零售/理财客户，存在样本偏差"
+
 polling:
   P1:
     name: "Pew American Trends Panel"

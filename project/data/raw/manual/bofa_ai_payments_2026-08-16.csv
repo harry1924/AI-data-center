@@ -1,0 +1,12 @@
+metric,value,unit,period,source_name,source_url,accessed_date,data_level,caveat
+households_paying_for_ai_pct,3,percent,2026-02,Bank of America Institute,https://institute.bankofamerica.com/content/dam/economic-insights/consumer-ai-usage.pdf,2026-08-16,B,"基于美国银行自有支付卡/ACH交易数据识别AI相关商户，非全国代表性抽样调查，只覆盖美国银行的活跃零售/理财客户，存在样本偏差"
+households_paying_index_2024avg,100,index(2024avg=100),2024 average,Bank of America Institute,https://institute.bankofamerica.com/content/dam/economic-insights/consumer-ai-usage.pdf,2026-08-16,B,基准年索引值
+households_paying_index_2026_02,138,index(2024avg=100),2026-02,Bank of America Institute,https://institute.bankofamerica.com/content/dam/economic-insights/consumer-ai-usage.pdf,2026-08-16,B,"原文明确表述'+38% vs 2024 average'；报告内配了一张月度指数走势图(Jan-24至Jan-26+)，但PDF为矢量图表非数据表格，未做逐月像素级读数，只采用文字明确给出的起止两个精确锚点，避免编造中间月份的精确数值"
+median_monthly_spend_usd,20,usd,2026-02,Bank of America Institute,https://institute.bankofamerica.com/content/dam/economic-insights/consumer-ai-usage.pdf,2026-08-16,B,+10.4% YoY
+spend_tier_21_40_growth_since_2024_pct,50,percent,2024 to 2026 YTD,Bank of America Institute,https://institute.bankofamerica.com/content/dam/economic-insights/consumer-ai-usage.pdf,2026-08-16,B,"$21-40/月支出档位家庭占比的增长，非绝对水平"
+spend_tier_over_100_pct,7,percent,2026,Bank of America Institute,https://institute.bankofamerica.com/content/dam/economic-insights/consumer-ai-usage.pdf,2026-08-16,B,AI付费家庭中月支出超过$100的占比
+chatgpt_paid_subscribers_millions,0.5,millions,2023-H2,third-party aggregation (Business of Apps/DemandSage等,源自OpenAI零星披露),https://www.businessofapps.com/data/chatgpt-statistics/,2026-08-16,C,"单一公司自我披露口径，经媒体/统计聚合站二次转述，非独立审计数字，非连续序列，仅作里程碑标注"
+chatgpt_paid_subscribers_millions,9.8,millions,2024-H1,third-party aggregation,https://www.businessofapps.com/data/chatgpt-statistics/,2026-08-16,C,同上
+chatgpt_paid_subscribers_millions,16.5,millions,2024-H2,third-party aggregation,https://www.businessofapps.com/data/chatgpt-statistics/,2026-08-16,C,同上
+chatgpt_paid_subscribers_millions,20,millions,2025-mid,third-party aggregation,https://www.businessofapps.com/data/chatgpt-statistics/,2026-08-16,C,同上
+chatgpt_paid_subscribers_millions,50,millions,2026-02,third-party aggregation,https://www.businessofapps.com/data/chatgpt-statistics/,2026-08-16,C,"OpenAI官方2026年2月宣布'5000万+付费订阅用户'，经媒体转述"
