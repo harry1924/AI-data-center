@@ -15,7 +15,7 @@ F09——**全报告最关键的数据源**。至此阶段一(T1-T5)全部数据
 
 | 数据源 | 状态 | 说明 |
 |---|---|---|
-| **SEC EDGAR** (C1→F14/F15) | ✅ 真实完整数据 | 4家公司(MSFT/AMZN/GOOGL/META) 2008-2026逐季资本开支/经营现金流，258行 |
+| **SEC EDGAR** (C1→F14/F15) | ✅ 真实完整数据 | 5家公司(MSFT/AMZN/GOOGL/META/ORCL) 2008-2026逐季资本开支/经营现金流，331行 |
 | **FRED** (E2→F03兜底/F05) | ✅ 真实完整数据 | APU000072610全国电价，1978-11至2026-07，573个月度观测点 |
 | **BLS QCEW** (J1→F07) | ✅ 真实完整数据 | NAICS 518210分县就业，2014-2025逐季，102,300行(受API本身覆盖范围限制，无2010-2013数据) |
 | **BLS PPI** (C3→F17) | ✅ 真实完整数据 | 变压器制造业PPI(PCU335311335311)，2017-2026月度，115行 |
@@ -46,14 +46,17 @@ F09——**全报告最关键的数据源**。至此阶段一(T1-T5)全部数据
 
 ## 逐数据集明细
 
-### F15/F14 — SEC EDGAR 四大厂商资本开支 (`data/raw/sec/capex_quarterly_by_fiscal_period.csv`)
+### F15/F14 — SEC EDGAR 五大厂商资本开支 (`data/raw/sec/capex_quarterly_by_fiscal_period.csv`)
 - 来源：`https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json`，XBRL标签
   `PaymentsToAcquirePropertyPlantAndEquipment`（AMZN 2017年后改用`PaymentsToAcquireProductiveAssets`，
   已在脚本里加了标签回退逻辑）+ `NetCashProvidedByUsedInOperatingActivities`
-- 访问日期：2026-08-16
-- 覆盖：MSFT/AMZN/GOOGL/META，2008-2026逐季（按财季末日期，非日历季）
+- 访问日期：2026-08-16（ORCL于用户2026-08-16追加要求后补充，其余四家同一批次）
+- 覆盖：MSFT/AMZN/GOOGL/META/ORCL，2008-2026逐季（按财季末日期，非日历季；ORCL财年5月结束，
+  数据从2016Q2起，更早期财报未披露可比口径的capex）
 - **真实亮点数字**：MSFT 2026财年Q4(2026-06-30)单季资本开支$358.02亿，经营现金流$554.41亿；
-  四家合计capex/经营现金流比率2026Q2达96%，与报告草稿引用的"93%"基本吻合
+  ORCL FY2026(2025-06至2026-05)全年资本开支$556.63亿，较FY2025($212.15亿)增长2.6倍(已用
+  10-K年度合计交叉验证100%吻合)；五家合计capex/经营现金流比率2026Q2达97%，与报告草稿引用
+  的"93%"基本吻合
 - **技术修正记录（重要）**：初版实现按XBRL的`fy`标签分组做累计值差分，未意识到MSFT/AMZN的10-Q
   会同时披露"当季3个月"直接数值和"财年累计"数值，混算导致MSFT单季capex被错误放大到$850.72亿。
   已改为按`start`日期分组做链式差分（同一start必然同属一条累计链），并用各公司10-K年度合计

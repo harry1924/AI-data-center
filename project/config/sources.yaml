@@ -169,7 +169,7 @@ capex_and_finance:
   C1:
     name: "SEC EDGAR companyfacts API"
     level: A
-    content: "MSFT/AMZN/GOOGL/META 资本开支、经营现金流、自由现金流"
+    content: "MSFT/AMZN/GOOGL/META/ORCL 资本开支、经营现金流、自由现金流"
     frequency: quarterly
     coverage: "2009-"
     access: "免费 REST API, 无需key"
@@ -180,9 +180,10 @@ capex_and_finance:
       AMZN: "0001018724"
       GOOGL: "0001652044"
       META: "0001326801"
+      ORCL: "0001341439"
     used_by: [F14, F15]
-    note: "微软财年6月结束，需做日历年/季对齐"
-    env_status: blocked_here
+    note: "微软财年6月结束、ORCL财年5月结束，均需做日历年/季对齐；ORCL于2026-08-16应用户要求追加"
+    env_status: obtained
   C2:
     name: "公司财报电话会与指引"
     level: A

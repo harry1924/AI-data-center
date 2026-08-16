@@ -1,5 +1,5 @@
 """
-F15 四大厂商资本开支季度序列。
+F15 五大厂商资本开支季度序列（MSFT/AMZN/GOOGL/META + ORCL，2026-08-16应用户要求加入甲骨文）。
 
 数据：data/processed/F15_capex_quarterly.csv (SEC EDGAR XBRL)
 输出：figures/{png,svg}/F15_capex_quarterly.{png,svg}
@@ -29,8 +29,9 @@ COMPANY_COLOR = {
     "AMZN": CATEGORICAL["orange"],
     "GOOGL": CATEGORICAL["aqua"],
     "META": CATEGORICAL["yellow"],
+    "ORCL": CATEGORICAL["magenta"],
 }
-COMPANY_ORDER = ["MSFT", "AMZN", "GOOGL", "META"]
+COMPANY_ORDER = ["MSFT", "AMZN", "GOOGL", "META", "ORCL"]
 
 
 def main():
@@ -64,10 +65,10 @@ def main():
 
     ax1.set_ylabel("季度资本开支（$B，十亿美元）", fontsize=9.5)
     ax1.set_title(
-        "四大厂商资本开支季度序列，2015Q1–2026Q2",
+        "五大厂商资本开支季度序列，2015Q1–2026Q2",
         fontsize=13, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14,
     )
-    ax1.legend(loc="upper left", frameon=False, fontsize=9.5, ncol=4, labelcolor=INK_SECONDARY)
+    ax1.legend(loc="upper left", frameon=False, fontsize=9.5, ncol=5, labelcolor=INK_SECONDARY)
 
     ratio = [
         (capex_total_by_q[q] / ocf_total_by_q[q] * 100) if ocf_total_by_q[q] else None
@@ -92,7 +93,8 @@ def main():
         0.01, -0.02,
         "数据源：SEC EDGAR XBRL companyfacts API，标签PaymentsToAcquirePropertyPlantAndEquipment(资本开支)、"
         "NetCashProvidedByUsedInOperatingActivities(经营现金流) | 按财季结束日期换算为日历季度，"
-        "MSFT财年6月结束但已按日历季对齐，可与其余三家直接比较 | 下图比率=四家合计资本开支/合计经营现金流",
+        "MSFT(6月结束)、ORCL(5月结束)财年与其余三家日历年不同，均已按日历季对齐可直接比较 | "
+        "下图比率=五家合计资本开支/合计经营现金流 | ORCL数据从2016Q2起(更早期财报未披露可比口径的capex)",
         fontsize=7.8, color=INK_MUTED, wrap=True, transform=fig.transFigure,
     )
 

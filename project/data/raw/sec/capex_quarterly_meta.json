@@ -10,6 +10,6 @@
       "NetCashProvidedByUsedInOperatingActivities"
     ]
   },
-  "accessed": "2026-08-16T08:11:51.468842+00:00",
+  "accessed": "2026-08-16T12:53:11.886317+00:00",
   "notes": "按'财季末日期'(fiscal_period_end)输出，非日历季；MSFT财年6月结束，需在 src/clean/ 阶段对齐日历季度后才能与AMZN/GOOGL/META同图比较。季度值由累计披露值(YTD)相减还原，Q1为直接披露值，Q2-Q4为差分结果，10-K年报的Q4值=全年-前三季度累计。"
 }
