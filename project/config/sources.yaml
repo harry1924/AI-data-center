@@ -43,21 +43,29 @@ electricity_and_rates:
     level: A
     content: "容量出清价 $/MW-day、采购量"
     frequency: "annual (交割年度)"
-    coverage: "2007/08-"
-    access: "PJM 官网 PDF/XLS"
+    coverage: "2007/08-；本项目实际取得2024/25-2027/28"
+    access: "PJM 官网 PDF/XLS（本环境WebFetch被代理拦截，pjm.com/insidelines.pjm.com均403/被拦截）"
     base_url: "https://www.pjm.com/markets-and-operations/rpm"
     used_by: [F04]
-    env_status: blocked_here
+    env_status: obtained_via_secondary_corroboration
+    note: "2026-08-17：pjm.com本身无法直接WebFetch，改用WebSearch交叉核对RTO Insider、
+      EnergyChoiceMatters、Renewable Energy World、Enel North America、PJM新闻稿摘要
+      等4家以上独立信源对同一拍卖结果的转引，各家数字一致（如2026/27 BRA全区域$329.17/MW-day
+      均被多家独立报道），可信度较高但不等同于直接读取官方PDF，如实标注为二手交叉核实"
   E5:
     name: "Monitoring Analytics State of the Market"
     level: A
     content: "容量成本归因、反事实测算"
     frequency: annual
-    coverage: "2005-"
-    access: "官网 PDF"
+    coverage: "2005-；本项目实际取得2025/26、2027/28及最近4次累计三个归因数字"
+    access: "官网 PDF（本环境WebFetch被代理拦截，monitoringanalytics.com/ieefa.org均被拦截）"
     base_url: "https://www.monitoringanalytics.com/reports/PJM_State_of_the_Market/"
     used_by: [F04, F05]
-    env_status: blocked_here
+    env_status: obtained_via_secondary_corroboration
+    note: "2026-08-17：Monitoring Analytics(PJM独立市场监察人)总裁Joseph Bowring对数据中心占
+      容量成本比例的测算，经Utility Dive/mgrid.org/Yahoo Finance/ZeroHedge/IEEFA报告多家转引，
+      三个不同口径的数字(2025/26占涨价增量63%、2027/28占总成本38%、最近4次累计占总成本46%)
+      均有具体来源可追溯，但同样是二手转引"
   E6:
     name: "MISO Planning Resource Auction"
     level: A
@@ -68,6 +76,7 @@ electricity_and_rates:
     base_url: "https://www.misoenergy.org/markets-and-operations/RSCFA/"
     used_by: [F04]
     env_status: blocked_here
+    note: "本轮只取得了PJM数据(五大厂商数据中心集中区域主要在PJM辖区内)，MISO仍未尝试"
   E7:
     name: "LBNL 数据中心用电报告"
     level: A
