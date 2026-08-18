@@ -123,11 +123,34 @@
 
 CBRE将核心市场在建产能2025年的首次下降归因于**审批、区划和电力获取周期的拉长**——这正与居民反对/地方暂停令直接相关。（注：此前版本曾引用"2023年末3,077.8MW"这一数字，经重新核实，CBRE官方通稿正文中直接给出的表述是"2024年产能同比翻倍至6,350.1MW"，据此反推2023年末约3,175MW——与3,077.8MW接近但并非同一原文数字，故此处不再单独列出该项，仅保留可直接核实的2020/2024/2025三个锚点。）
 
-### 5.4 具体州级验证：德州份额还将继续扩大
+### 5.4 核心市场"占比"没有干净的时间序列，但核心市场"存量"有——而且它揭示了一个重要修正
+
+**直接回答"核心市场占比时间序列有没有"这个问题：没有找到一条方法论稳定、跨多年、专门统计"核心市场占全国/全北美总量百分比"的干净序列。** 唯一逐年报告"份额"这个指标的是JLL，而JLL这条线已经在5.2节被证实存在2025年覆盖范围扩大的问题，不能直接当作可信的"份额时间序列"使用。CBRE的报告风格不同——它几乎不报告"份额百分比"，而是逐年报告核心市场自身的**绝对量**（MW），需要读者自己换算。
+
+不过，深入核查CBRE历年报告后，找到了一条**方法论相对稳定（"primary markets"固定为八个传统枢纽）、可直接核实的核心市场绝对存量（inventory/stock）序列**，它带来一个重要修正：
+
+| 时间点 | 核心市场总存量（inventory，非"在建"） | 同比变化 |
+|---|---|---|
+| H1 2021 | 约 3,092.5 MW（由H1 2022"同比增20%"反推） | — |
+| H1 2022 | 3,711.0 MW | +20% |
+| 2025年（全年） | 9,432 MW | **+36%，创纪录** |
+
+（[CBRE H1 2022报告](https://www.cbre.com/insights/reports/north-america-data-center-trends-h1-2022)，[CBRE: Fast-Growing North American Data Center Market Set Records in 2025](https://www.cbre.com/press-releases/fast-growing-north-american-data-center-market-set-records-in-2025)——均已直接抓取原文核实）
+
+同一份2025年报告还直接给出：核心市场2025年**净吸纳量2,497.6MW，创纪录，较2024年的1,809.5MW增长38%**；全国空置率降至历史新低1.4%。
+
+**这条"存量"曲线和前面5.3节的"在建"曲线看起来矛盾，但其实是同一枚硬币的两面，需要认真区分：**
+
+- **"在建产能"（under construction）是一个前瞻性/流量指标**——反映的是"未来一两年会新增多少"，2025年出现2020年以来首次同比下降（6,350.1MW→5,994.4MW）。
+- **"总存量"（inventory）是一个滞后性/存量指标**——反映的是"已经建成交付了多少"，2025年不仅没有下降，反而以36%的速度创纪录增长，因为这部分交付的是前几年已经开工的项目。
+
+**因此，本报告需要在此修正此前的措辞："核心市场见顶回落"这个说法，严格来说只适用于"在建产能"这个前瞻指标，不能理解为"核心市场本身正在萎缩"——核心市场2025年的实际规模（存量）仍在以历史最快速度扩张，只是"下一批新开工项目"的势头开始减弱。** 这其实是一个更符合逻辑的故事：核心市场因为电力/土地/居民反对等约束，**新开工放缓**，但**存量家底仍在吃老本式地快速兑现**——扩散效应体现在"增量"层面，而不是"核心市场已经开始萎缩"这种更强的说法。
+
+### 5.5 具体州级验证：德州份额还将继续扩大
 
 德州目前跟踪在建/规划产能约39.2 GW，行业预测到2028年将突破40 GW，**相当于全美总需求的近30%，较目前市场份额再提升约142%**（[ServerCountry.org 德州追踪数据](https://servercountry.org/data/states/texas/)，此数据来自第三方追踪网站聚合，未经一手核实，供参考）。这与JLL"德州将在2030年前取代弗吉尼亚成为全球最大数据中心市场"的判断方向一致（[JLL 年终2025报告](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)）。
 
-### 5.5 分析师直接将两者挂钩
+### 5.6 分析师直接将两者挂钩
 
 Synergy Research 首席分析师 John Dinsdale 在2026年的评论中明确指出：**"电力供应受限和日益增长的地方反对声浪，正在压缩许多地区新数据中心计划的空间"**，迫使开发商将目光投向传统集群以外、拥有更多可用电力和土地的地区（[Data Center Frontier: Reports: Data Center Expansion Finds Its Contours](https://www.datacenterfrontier.com/machine-learning/article/55397463/reports-data-center-expansion-finds-its-contours)）。
 
@@ -173,6 +196,7 @@ Data Center Knowledge 对 Data Center Watch 数据的分析也指出一个关键
 - [JLL: North America Data Center Report Midyear 2026](https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers)
 - [CBRE: North American Data Center Construction Hit New Heights in 2024](https://www.cbre.com/press-releases/north-american-data-center-construction-hit-new-heights-in-2024-amid-surging-demand)
 - [CBRE: Fast-Growing North American Data Center Market Set Records in 2025](https://www.cbre.com/press-releases/fast-growing-north-american-data-center-market-set-records-in-2025)
+- [CBRE: North America Data Center Trends H1 2022](https://www.cbre.com/insights/reports/north-america-data-center-trends-h1-2022)
 - [ServerCountry.org: Texas Data Center Projects Tracker](https://servercountry.org/data/states/texas/)
 - [Data Center Frontier: Reports — Data Center Expansion Finds Its Contours](https://www.datacenterfrontier.com/machine-learning/article/55397463/reports-data-center-expansion-finds-its-contours)
 - [Data Center Knowledge: Local Opposition Hinders More Data Center Construction Projects](https://www.datacenterknowledge.com/regulations/local-opposition-hinders-more-data-center-construction-projects)
