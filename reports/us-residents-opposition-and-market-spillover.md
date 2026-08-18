@@ -58,7 +58,48 @@
 
 ---
 
-## 五、因果关系上的谨慎表述（重要）
+## 五、时间序列证据：前沿市场新建量确实在持续增加
+
+这一部分专门回答"前沿市场的新建数量是否在增加"这一问题——答案是肯定的，且是**份额和绝对量同时增长**：
+
+### 5.1 前沿市场占全国在建产能的份额：半年内从64%升至77%
+
+| 时间点 | 全国在建总产能 | 前沿市场占比 | 前沿市场在建产能（推算） |
+|---|---|---|---|
+| 2025年末（JLL年终报告） | 35 GW | 64% | 约 22.4 GW |
+| 2026年年中（JLL Midyear报告，2026年8月） | 66 GW | 77% | 约 50.8 GW |
+
+（[JLL: Texas prepares to dethrone Virginia](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)，[JLL: North America Data Center Report Midyear 2026](https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers)）
+
+短短半年内，**前沿市场在建产能的份额提高了13个百分点，绝对规模更是增长了约2.3倍**（22.4 GW → 50.8 GW），远超同期全国在建总量的增速（35 GW → 66 GW，约1.9倍）。这说明前沿市场不仅新建数量在增加，其增速还**快于市场整体增速**，即"外溢"效应在加速而非放缓。
+
+报告还特别指出，西德州、俄亥俄、路易斯安那、印第安纳、卡罗来纳等地区**"十年前几乎没有任何数据中心footprint"**，属于从零起步的新增量，而非existing产能的自然扩张。
+
+### 5.2 对照组：传统核心市场的在建产能已见顶甚至回落
+
+CBRE《North America Data Center Trends》系列报告显示的核心市场（primary markets）在建产能变化：
+
+- 2023年末：3,077.8 MW（历史高点）
+- 2024年末：6,350 MW（同比翻倍）
+- 2025年末：5,994.4 MW（**较2024年末回落，为2020年以来首次下降**）
+
+（[CBRE: North American Data Center Construction Hit New Heights in 2024](https://www.cbre.com/press-releases/north-american-data-center-construction-hit-new-heights-in-2024-amid-surging-demand)，[CBRE: Fast-Growing North American Data Center Market Set Records in 2025](https://www.cbre.com/press-releases/fast-growing-north-american-data-center-market-set-records-in-2025)）
+
+CBRE将此次核心市场在建产能的首次下降归因于**审批、区划和电力获取周期的拉长**——这正与居民反对/地方暂停令直接相关。核心市场停滞、前沿市场加速增长，两条曲线在2025年出现明显交叉。
+
+### 5.3 具体州级验证：德州份额还将继续扩大
+
+德州目前跟踪在建/规划产能约39.2 GW，行业预测到2028年将突破40 GW，**相当于全美总需求的近30%，较目前市场份额再提升约142%**（[ServerCountry.org 德州追踪数据](https://servercountry.org/data/states/texas/)）。这与JLL"德州将在2030年前取代弗吉尼亚成为全球最大数据中心市场"的判断一致（[JLL 年终2025报告](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)）。
+
+### 5.4 分析师直接将两者挂钩
+
+Synergy Research 首席分析师 John Dinsdale 在2026年的评论中明确指出：**"电力供应受限和日益增长的地方反对声浪，正在压缩许多地区新数据中心计划的空间"**，迫使开发商将目光投向传统集群以外、拥有更多可用电力和土地的地区（[Data Center Frontier: Reports: Data Center Expansion Finds Its Contours](https://www.datacenterfrontier.com/machine-learning/article/55397463/reports-data-center-expansion-finds-its-contours)）。
+
+Data Center Knowledge 对 Data Center Watch 数据的分析也指出一个关键规律：**"反对声浪在数据中心开发已经密集的地区最为强烈"**（[Data Center Knowledge: Local Opposition Hinders More Data Center Construction Projects](https://www.datacenterknowledge.com/regulations/local-opposition-hinders-more-data-center-construction-projects)）——这正好解释了为什么"核心市场"（已经密集开发、居民疲劳度最高）恰恰是反对最集中、外溢压力最大的地方。
+
+---
+
+## 六、因果关系上的谨慎表述（重要）
 
 需要避免"居民反对是市场扩散唯一原因"这种过度简化的结论：
 
@@ -70,7 +111,7 @@
 
 ---
 
-## 六、参考来源
+## 七、参考来源
 
 - [Data Center Watch — $64 Billion Report](https://www.datacenterwatch.org/report)
 - [Data Center Watch — Q2 2025 Update](https://www.datacenterwatch.org/q22025)
@@ -92,3 +133,10 @@
 - [US Data Center Policy Tracker (dcmap.us)](https://dcmap.us/insights/policy/)
 - [Good Jobs First: Data Center Moratorium Bills Are Spreading in 2026](https://goodjobsfirst.org/data-center-moratorium-bills-are-spreading-in-2026/)
 - [Harris Beach Murtha: NY State first-in-nation moratorium](https://www.harrisbeachmurtha.com/insights/new-york-state-legislature-passes-first-in-the-nation-data-center-moratorium/)
+- [JLL: Texas prepares to dethrone Virginia (Year-End 2025 Report)](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)
+- [JLL: North America Data Center Report Midyear 2026](https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers)
+- [CBRE: North American Data Center Construction Hit New Heights in 2024](https://www.cbre.com/press-releases/north-american-data-center-construction-hit-new-heights-in-2024-amid-surging-demand)
+- [CBRE: Fast-Growing North American Data Center Market Set Records in 2025](https://www.cbre.com/press-releases/fast-growing-north-american-data-center-market-set-records-in-2025)
+- [ServerCountry.org: Texas Data Center Projects Tracker](https://servercountry.org/data/states/texas/)
+- [Data Center Frontier: Reports — Data Center Expansion Finds Its Contours](https://www.datacenterfrontier.com/machine-learning/article/55397463/reports-data-center-expansion-finds-its-contours)
+- [Data Center Knowledge: Local Opposition Hinders More Data Center Construction Projects](https://www.datacenterknowledge.com/regulations/local-opposition-hinders-more-data-center-construction-projects)
