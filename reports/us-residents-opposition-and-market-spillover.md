@@ -64,25 +64,29 @@
 
 ### 5.1 更长的时间序列：从"存量占比多年不变"到"新增管道占比急剧反转"
 
-把 JLL 历年报告的数据点拼接起来，能看到一条比"半年对比"更长、也更有说服力的曲线。需要注意：不同年份报告使用的**统计口径不完全一致**（有的只统计"在建"，有的把"在建+规划"都算作"管道 pipeline"；有的只统计托管colocation，有的统计全部数据中心），因此下表并非严格意义上同一指标的连续时间序列，但**方向和量级的一致性**本身就是有力证据：
+把 JLL/CBRE 历年报告的数据点拼接起来，能构建一条**跨度长达7年（2019–2026）**的曲线。需要再次强调：不同年份报告使用的**统计口径不完全一致**（有的统计"当期新增/累计overall construction占比"，有的统计某一时点的"在建"存量，有的把"在建+规划"都算作"管道pipeline"，有的只统计托管colocation存量），因此下表**不是**严格意义上同一指标的连续时间序列，但**方向和量级的一致性**本身就是有力证据：
 
-| 时间点 | 数据来源/口径 | 核心市场占比 | 前沿/二线市场占比 | 总规模 |
+| 时间点 | 数据来源/口径 | 核心/主要市场占比 | 前沿/二线市场占比 | 总规模 |
 |---|---|---|---|---|
-| H1 2023 | JLL，托管colocation**存量**库存 | （对应二线市场空置率12.7%，反映需求疲软） | — | — |
-| H1 2024 | JLL，托管colocation**存量**库存 | 76% | 24% | 存量比例"近年基本未变" |
+| H1 2019 | JLL，二线市场占**当期新增建设**的份额 | 84.6% | 15.4% | — |
+| H2 2022 | JLL，二线市场占**当期新增建设**的份额 | 73.8% | 26.2% | — |
+| H2 2023（2024年2月发布） | JLL，二线市场占**在建**产能的份额 | 约80% | 约20% | — |
+| H1 2024 | JLL，二线市场占**colocation存量**库存的份额 | 76% | 24% | 存量比例"近年基本未变" |
 | 2024年末（2025年3月发布） | JLL，**在建**产能 | 78% | 22% | 6.6 GW 在建 |
 | 2025年年中（2025年8月发布） | JLL，**在建**产能 | — | — | 7.8 GW 在建；32.6 GW 至2030年规划 |
 | 2025年末（2026年初发布） | JLL，**在建+规划管道** | 36% | 64% | 35 GW 管道 |
 | 2026年年中（2026年8月发布） | JLL，**在建+规划管道** | 23% | 77% | 66 GW 管道 |
 
-（[Data Center Frontier: Comparing CBRE/JLL highlights](https://www.datacenterfrontier.com/colocation/article/55137045/comparing-highlights-from-the-latest-cbre-jll-state-of-the-market-reports-for-us-data-centers)，[JLL: Record-low vacancy fuels gold rush](https://www.jll.com/en-us/newsroom/record-low-data-center-vacancy-fuels-modern-day-gold-rush)，[JLL: Data center availability crisis deepens](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)，[JLL年终2025报告](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)，[JLL Midyear 2026报告](https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers)）
+（[JLL Data Centers Research Snapshot, Apr 2023（二手引用）](https://www.us.jll.com/en/trends-and-insights/research/data-centers-research-snapshot-04-28-2023)，[Data Center Knowledge: New Markets Opening Up Amid US Data Center Boom](https://www.datacenterknowledge.com/data-center-site-selection/new-markets-opening-up-amid-us-data-center-boom-jll)，[Data Center Frontier: Comparing CBRE/JLL highlights](https://www.datacenterfrontier.com/colocation/article/55137045/comparing-highlights-from-the-latest-cbre-jll-state-of-the-market-reports-for-us-data-centers)，[JLL: Record-low vacancy fuels gold rush](https://www.jll.com/en-us/newsroom/record-low-data-center-vacancy-fuels-modern-day-gold-rush)，[JLL: Data center availability crisis deepens](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)，[JLL年终2025报告](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)，[JLL Midyear 2026报告](https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers)）
 
-**这条时间线传递的关键信息是一次"结构性拐点"，而非单纯的持续渐进增长：**
+**说明**：H1 2019→H2 2022 这组数据（15.4%→26.2%）出自JLL 2023年4月发布的研究简报，该原始页面目前已下线跳转，本文通过二手引用（Data Center Knowledge、多家行业媒体转述）交叉核实，数值一致但已无法直接核对原始图表，故标注为"二手引用"以提示读者。H2 2023的约20%数据点则有Data Center Knowledge文章直接、可核实的引用。
 
-1. **2023–2024年（存量层面）**：JLL明确指出，二线市场占托管总库存的比例"近年基本保持不变"（约24%），说明当时行业结构仍然稳定，核心市场主导地位没有被撼动。
-2. **2024年末（在建层面）**：即便到了2024年底，新开工项目里仍有78%集中在核心市场——说明当时"新建"的地理分布还没有明显偏离"存量"的地理分布。
-3. **2025年出现急转**：短短一年内，管道中前沿市场占比从约22%（2024年末在建口径）跃升到64%（2025年末管道口径），再到2026年年中的77%。即使考虑到口径从"在建"扩展到"在建+规划"会天然抬高前沿市场占比（因为规划中项目更多分布在地广人稀、审批快的前沿地区），**这个反转的速度和幅度在数据中心行业过去从未出现过**。
-4. 具体前沿市场的**自2020年以来**增长倍数也印证了这不是短期波动：**哥伦布（俄亥俄州）自2020年增长1800%，奥斯汀/圣安东尼奥自2020年增长500%**（[JLL: Data center availability crisis deepens](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)）。
+**这条更长的时间线传递的关键信息是一次"结构性拐点"，而非单纯的持续渐进增长：**
+
+1. **2019–2022年（早期渐进期）**：二线市场占新增建设的份额用了约3年半时间，从15.4%缓慢爬升到26.2%，年化增长约3个百分点——典型的"边际扩张"节奏，反映的是正常的市场成熟过程。
+2. **2022–2024年（平台期/略微回落）**：此后约两年，二线/前沿市场份额基本在20%–26%区间**原地踏步甚至小幅波动**（H2 2023约20%，H1 2024存量占比24%，2024年末在建占比22%）——JLL自己也形容这段时期"近年基本未变"。也就是说，直到2024年底，行业结构总体仍然稳定，核心市场的主导地位没有被撼动。
+3. **2025–2026年（急转期）**：**短短12–18个月内**，前沿市场在管道中的占比从22%（2024年末）跃升到64%（2025年末），再到77%（2026年年中）——涨幅是过去5年（2019–2024）累计涨幅的数倍，且发生在远短得多的时间窗口内。即使考虑到统计口径从"在建"扩展到"在建+规划"会天然抬高前沿市场占比（规划中项目更多分布在地广人稀、审批更快的前沿地区），**这种反转的速度和幅度在数据中心行业过去7年的历史中从未出现过**。
+4. 具体前沿市场的**自2020年以来**增长倍数也印证了这不是短期波动：**哥伦布（俄亥俄州）自2020年增长1800%，奥斯汀/圣安东尼奥自2020年增长500%**（[JLL: Data center availability crisis deepens](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)）。这两个数字本身也说明，前沿市场的崛起并非2025年才开始的新现象，而是一个已经持续5–6年的低基数快速增长，只是在2025年之后才在"份额"这个相对指标上体现为对核心市场的实质性反超。
 
 ### 5.2 半年最新数据：从64%到77%
 
@@ -163,3 +167,5 @@ Data Center Knowledge 对 Data Center Watch 数据的分析也指出一个关键
 - [Data Center Frontier: Comparing Highlights from Latest CBRE/JLL Reports](https://www.datacenterfrontier.com/colocation/article/55137045/comparing-highlights-from-the-latest-cbre-jll-state-of-the-market-reports-for-us-data-centers)
 - [JLL: Record-low data center vacancy fuels modern-day "gold rush" (Mar 2025)](https://www.jll.com/en-us/newsroom/record-low-data-center-vacancy-fuels-modern-day-gold-rush)
 - [JLL: Data center availability crisis deepens as vacancy hits historic low (Aug 2025)](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)
+- [JLL Data Centers Research Snapshot, Apr 2023 (original page redirected; cross-checked via secondary sources)](https://www.us.jll.com/en/trends-and-insights/research/data-centers-research-snapshot-04-28-2023)
+- [Data Center Knowledge: New Markets Opening Up Amid US Data Center Boom (JLL H2 2023 report, Feb 2024)](https://www.datacenterknowledge.com/data-center-site-selection/new-markets-opening-up-amid-us-data-center-boom-jll)
