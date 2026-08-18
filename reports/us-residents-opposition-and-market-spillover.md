@@ -62,20 +62,40 @@
 
 这一部分专门回答"前沿市场的新建数量是否在增加"这一问题——答案是肯定的，且是**份额和绝对量同时增长**：
 
-### 5.1 前沿市场占全国在建产能的份额：半年内从64%升至77%
+### 5.1 更长的时间序列：从"存量占比多年不变"到"新增管道占比急剧反转"
 
-| 时间点 | 全国在建总产能 | 前沿市场占比 | 前沿市场在建产能（推算） |
+把 JLL 历年报告的数据点拼接起来，能看到一条比"半年对比"更长、也更有说服力的曲线。需要注意：不同年份报告使用的**统计口径不完全一致**（有的只统计"在建"，有的把"在建+规划"都算作"管道 pipeline"；有的只统计托管colocation，有的统计全部数据中心），因此下表并非严格意义上同一指标的连续时间序列，但**方向和量级的一致性**本身就是有力证据：
+
+| 时间点 | 数据来源/口径 | 核心市场占比 | 前沿/二线市场占比 | 总规模 |
+|---|---|---|---|---|
+| H1 2023 | JLL，托管colocation**存量**库存 | （对应二线市场空置率12.7%，反映需求疲软） | — | — |
+| H1 2024 | JLL，托管colocation**存量**库存 | 76% | 24% | 存量比例"近年基本未变" |
+| 2024年末（2025年3月发布） | JLL，**在建**产能 | 78% | 22% | 6.6 GW 在建 |
+| 2025年年中（2025年8月发布） | JLL，**在建**产能 | — | — | 7.8 GW 在建；32.6 GW 至2030年规划 |
+| 2025年末（2026年初发布） | JLL，**在建+规划管道** | 36% | 64% | 35 GW 管道 |
+| 2026年年中（2026年8月发布） | JLL，**在建+规划管道** | 23% | 77% | 66 GW 管道 |
+
+（[Data Center Frontier: Comparing CBRE/JLL highlights](https://www.datacenterfrontier.com/colocation/article/55137045/comparing-highlights-from-the-latest-cbre-jll-state-of-the-market-reports-for-us-data-centers)，[JLL: Record-low vacancy fuels gold rush](https://www.jll.com/en-us/newsroom/record-low-data-center-vacancy-fuels-modern-day-gold-rush)，[JLL: Data center availability crisis deepens](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)，[JLL年终2025报告](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)，[JLL Midyear 2026报告](https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers)）
+
+**这条时间线传递的关键信息是一次"结构性拐点"，而非单纯的持续渐进增长：**
+
+1. **2023–2024年（存量层面）**：JLL明确指出，二线市场占托管总库存的比例"近年基本保持不变"（约24%），说明当时行业结构仍然稳定，核心市场主导地位没有被撼动。
+2. **2024年末（在建层面）**：即便到了2024年底，新开工项目里仍有78%集中在核心市场——说明当时"新建"的地理分布还没有明显偏离"存量"的地理分布。
+3. **2025年出现急转**：短短一年内，管道中前沿市场占比从约22%（2024年末在建口径）跃升到64%（2025年末管道口径），再到2026年年中的77%。即使考虑到口径从"在建"扩展到"在建+规划"会天然抬高前沿市场占比（因为规划中项目更多分布在地广人稀、审批快的前沿地区），**这个反转的速度和幅度在数据中心行业过去从未出现过**。
+4. 具体前沿市场的**自2020年以来**增长倍数也印证了这不是短期波动：**哥伦布（俄亥俄州）自2020年增长1800%，奥斯汀/圣安东尼奥自2020年增长500%**（[JLL: Data center availability crisis deepens](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)）。
+
+### 5.2 半年最新数据：从64%到77%
+
+| 时间点 | 全国在建/管道总产能 | 前沿市场占比 | 前沿市场产能（推算） |
 |---|---|---|---|
 | 2025年末（JLL年终报告） | 35 GW | 64% | 约 22.4 GW |
 | 2026年年中（JLL Midyear报告，2026年8月） | 66 GW | 77% | 约 50.8 GW |
 
-（[JLL: Texas prepares to dethrone Virginia](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)，[JLL: North America Data Center Report Midyear 2026](https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers)）
-
-短短半年内，**前沿市场在建产能的份额提高了13个百分点，绝对规模更是增长了约2.3倍**（22.4 GW → 50.8 GW），远超同期全国在建总量的增速（35 GW → 66 GW，约1.9倍）。这说明前沿市场不仅新建数量在增加，其增速还**快于市场整体增速**，即"外溢"效应在加速而非放缓。
+短短半年内，**前沿市场份额提高了13个百分点，绝对规模增长约2.3倍**（22.4 GW → 50.8 GW），快于同期全国总量增速（35 GW → 66 GW，约1.9倍）——说明"外溢"效应在加速，而非放缓。
 
 报告还特别指出，西德州、俄亥俄、路易斯安那、印第安纳、卡罗来纳等地区**"十年前几乎没有任何数据中心footprint"**，属于从零起步的新增量，而非existing产能的自然扩张。
 
-### 5.2 对照组：传统核心市场的在建产能已见顶甚至回落
+### 5.3 对照组：传统核心市场的在建产能已见顶甚至回落
 
 CBRE《North America Data Center Trends》系列报告显示的核心市场（primary markets）在建产能变化：
 
@@ -87,11 +107,11 @@ CBRE《North America Data Center Trends》系列报告显示的核心市场（pr
 
 CBRE将此次核心市场在建产能的首次下降归因于**审批、区划和电力获取周期的拉长**——这正与居民反对/地方暂停令直接相关。核心市场停滞、前沿市场加速增长，两条曲线在2025年出现明显交叉。
 
-### 5.3 具体州级验证：德州份额还将继续扩大
+### 5.4 具体州级验证：德州份额还将继续扩大
 
 德州目前跟踪在建/规划产能约39.2 GW，行业预测到2028年将突破40 GW，**相当于全美总需求的近30%，较目前市场份额再提升约142%**（[ServerCountry.org 德州追踪数据](https://servercountry.org/data/states/texas/)）。这与JLL"德州将在2030年前取代弗吉尼亚成为全球最大数据中心市场"的判断一致（[JLL 年终2025报告](https://www.jll.com/en-us/newsroom/jll-north-america-data-center-report-year-end-2025)）。
 
-### 5.4 分析师直接将两者挂钩
+### 5.5 分析师直接将两者挂钩
 
 Synergy Research 首席分析师 John Dinsdale 在2026年的评论中明确指出：**"电力供应受限和日益增长的地方反对声浪，正在压缩许多地区新数据中心计划的空间"**，迫使开发商将目光投向传统集群以外、拥有更多可用电力和土地的地区（[Data Center Frontier: Reports: Data Center Expansion Finds Its Contours](https://www.datacenterfrontier.com/machine-learning/article/55397463/reports-data-center-expansion-finds-its-contours)）。
 
@@ -140,3 +160,6 @@ Data Center Knowledge 对 Data Center Watch 数据的分析也指出一个关键
 - [ServerCountry.org: Texas Data Center Projects Tracker](https://servercountry.org/data/states/texas/)
 - [Data Center Frontier: Reports — Data Center Expansion Finds Its Contours](https://www.datacenterfrontier.com/machine-learning/article/55397463/reports-data-center-expansion-finds-its-contours)
 - [Data Center Knowledge: Local Opposition Hinders More Data Center Construction Projects](https://www.datacenterknowledge.com/regulations/local-opposition-hinders-more-data-center-construction-projects)
+- [Data Center Frontier: Comparing Highlights from Latest CBRE/JLL Reports](https://www.datacenterfrontier.com/colocation/article/55137045/comparing-highlights-from-the-latest-cbre-jll-state-of-the-market-reports-for-us-data-centers)
+- [JLL: Record-low data center vacancy fuels modern-day "gold rush" (Mar 2025)](https://www.jll.com/en-us/newsroom/record-low-data-center-vacancy-fuels-modern-day-gold-rush)
+- [JLL: Data center availability crisis deepens as vacancy hits historic low (Aug 2025)](https://www.jll.com/en-us/newsroom/data-center-availability-crisis-deepens-as-vacancy-hits-historic-low)
